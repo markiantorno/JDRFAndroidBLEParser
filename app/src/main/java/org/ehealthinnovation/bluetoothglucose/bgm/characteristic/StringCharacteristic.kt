@@ -5,30 +5,22 @@ import android.util.Log
 import org.ehealthinnovation.bluetoothglucose.bgm.encodedValues.GattCharacteristic
 
 /**
+ * Many base Bluetooth Characteristics only have one [String] value associated with them. These
+ * [BaseCharacteristic] classes can just extend this class and not worry about implementation.
+ *
  * Created by miantorno on 2018-06-19.
  */
 open class StringCharacteristic(characteristic: BluetoothGattCharacteristic?, uuid: String) :
         BaseCharacteristic(characteristic, uuid) {
     override val tag = StringCharacteristic::class.java.canonicalName as String
-
-    val parserErrorString: String = "error parsing string characteristic, null value"
-
     var valueString: String? = null
 
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
-        return valueParsedAtIndex(c.getStringValue(this.offset), this.offset)
-    }
-
-    open protected fun valueParsedAtIndex(s: String?, index: Int): Boolean {
-        s?.let {
-            when (index) {
-                0 -> this.valueString = it
-                else -> throw IndexOutOfBoundsException(tag + ", Characteristic does not support " +
-                        "String data at index -> " + index)
-            }
-            return true
+        try {
+            valueString = getNextStringValue(c)
+        } catch (e: NullPointerException) {
+            Log.e(tag, e.message)
         }
-        Log.e(tag, parserErrorString)
-        return false
+        return valueString != null
     }
 }

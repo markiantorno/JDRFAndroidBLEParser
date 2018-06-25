@@ -22,6 +22,7 @@ enum class VendorId constructor(val vendorId: Int, val value: String) {
      * Format: uint16
      */
     DIS_VENDOR_ID_SOURCE_BLUETOOTHSIG(1, "Bluetooth SIG assigned Company Identifier value from the Assigned Numbers document"),
+
     /**
      * InformativeText: Manufacturer managed identifier for this product
      *
@@ -33,7 +34,7 @@ enum class VendorId constructor(val vendorId: Int, val value: String) {
 
     companion object {
 
-        private val codeValueMap = HashMap<Int, VendorId>(2)
+        private val codeValueMap = HashMap<Int, VendorId>()
 
         init {
             for (vendorId in VendorId.values()) {
