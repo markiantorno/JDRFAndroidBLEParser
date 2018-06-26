@@ -22,7 +22,7 @@ script:
     # Run JUnit tests
     - ./gradlew test
     # Generate codecov results
-    - ./gradlew connectedCheck
+    - ./gradlew jacocoTestReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
