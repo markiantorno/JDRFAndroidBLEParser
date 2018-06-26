@@ -120,9 +120,9 @@ abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, 
     private fun getNextOffset(formatType: Int, currentIndex: Int): Int {
         var newIndex = currentIndex
         newIndex += when (formatType) {
-            FORMAT_UINT8, FORMAT_SINT8 -> 2
-            FORMAT_UINT16, FORMAT_SINT16, FORMAT_SFLOAT -> 4
-            FORMAT_UINT32, FORMAT_SINT32, FORMAT_FLOAT -> 8
+            FORMAT_UINT8, FORMAT_SINT8 -> 1
+            FORMAT_UINT16, FORMAT_SINT16, FORMAT_SFLOAT -> 2
+            FORMAT_UINT32, FORMAT_SINT32, FORMAT_FLOAT -> 4
             else -> {
                 Log.e(tag, "Bad format type, \"$formatType\", passed into get value...")
             }
