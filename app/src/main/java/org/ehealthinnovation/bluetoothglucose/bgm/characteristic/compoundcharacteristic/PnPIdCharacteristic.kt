@@ -22,21 +22,21 @@ class PnPIdCharacteristic(characteristic: BluetoothGattCharacteristic?) :
     override val tag = PnPIdCharacteristic::class.java.canonicalName as String
 
     // Identifies the source of the Vendor ID field
-    var mVendorIdSource: VendorId? = null
+    var vendorIdSource: VendorId? = null
     // Identifies the product vendor from the namespace in the Vendor ID Source
-    var mVendorId: Int? = null
+    var vendorId: Int? = null
     // Manufacturer managed identifier for this product
-    var mProductId: Int? = null
+    var productId: Int? = null
     // Manufacturer managed version for this product
-    var mProductVersion: Int? = null
+    var productVersion: Int? = null
 
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
         var errorFreeParse = false
         try {
-            mVendorIdSource = getVendorIdFromValue(getNextIntValue(c, FORMAT_UINT8))
-            mVendorId = getNextIntValue(c, FORMAT_UINT16)
-            mProductId = getNextIntValue(c, FORMAT_UINT16)
-            mProductVersion = getNextIntValue(c, FORMAT_UINT16)
+            vendorIdSource = getVendorIdFromValue(getNextIntValue(c, FORMAT_UINT8))
+            vendorId = getNextIntValue(c, FORMAT_UINT16)
+            productId = getNextIntValue(c, FORMAT_UINT16)
+            productVersion = getNextIntValue(c, FORMAT_UINT16)
             errorFreeParse = true
         } catch (e: NullPointerException) {
             Log.e(tag, nullValueException)
