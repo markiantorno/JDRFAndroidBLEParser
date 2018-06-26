@@ -16,22 +16,22 @@ import android.util.Log
  *
  * Created by miantorno on 2018-06-19.
  */
-abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, uuid: String) {
+abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, val uuid: String) {
     open val tag = BaseCharacteristic::class.java.canonicalName as String
     val nullValueException = "Null characteristic interpretation, aborting parsing."
-    val uuid: String = uuid
     val rawData: ByteArray = characteristic?.value ?: ByteArray(0)
-    val successfulParsing: Boolean
+    var successfulParsing: Boolean = false
     var offset = 0
 
+    /**
+     * If the characteristic is null, which is possible, we just return false so the requesting
+     * process can handle the failed parse. This is done in the super class, so we don't have to
+     * deal with it in every other sub class characteristic.
+     */
     init {
-        this.successfulParsing = parsePacket(characteristic)
-    }
-
-    private fun parsePacket(c: BluetoothGattCharacteristic?): Boolean {
-        c?.let { return parse(it) }
-        Log.e(tag, "null BluetoothGattCharacteristic, passed to ParsePacket()")
-        return false
+        characteristic?.let {
+            this.successfulParsing = parse(it)
+        }
     }
 
     /**
