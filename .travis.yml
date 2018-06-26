@@ -19,7 +19,10 @@ before_install:
     - yes | sdkmanager "platforms;android-26"
 
 script:
+    # Run JUnit tests
     - ./gradlew test
+    # Generate codecov results
+    - ./gradlew connectedCheck
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
