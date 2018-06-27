@@ -98,23 +98,35 @@ class PnPIdCharacteristicTest : BaseTest() {
     fun testVendorIdSource() {
         val validPnPIdCharacteristic = PnPIdCharacteristic(mockPopulatedCharacteristic)
         Assert.assertEquals(mockVendorIdSource, validPnPIdCharacteristic.vendorIdSource)
+
+        validPnPIdCharacteristic.vendorIdSource = VendorId.DIS_VENDOR_ID_SOURCE_USB_FORUM
+        Assert.assertEquals(VendorId.DIS_VENDOR_ID_SOURCE_USB_FORUM, validPnPIdCharacteristic.vendorIdSource)
     }
 
     @Test
     fun testVendorId() {
         val validPnPIdCharacteristic = PnPIdCharacteristic(mockPopulatedCharacteristic)
         Assert.assertEquals(mockVendorIdInt, validPnPIdCharacteristic.vendorId)
+
+        validPnPIdCharacteristic.vendorId = mockVendorIdInt + 1
+        Assert.assertEquals(mockVendorIdInt + 1, validPnPIdCharacteristic.vendorId)
     }
 
     @Test
     fun testProductId() {
         val validPnPIdCharacteristic = PnPIdCharacteristic(mockPopulatedCharacteristic)
         Assert.assertEquals(mockProductIdInt, validPnPIdCharacteristic.productId)
+
+        validPnPIdCharacteristic.productId = mockProductIdInt + 1
+        Assert.assertEquals(mockProductIdInt + 1, validPnPIdCharacteristic.productId)
     }
 
     @Test
     fun testProductVersion() {
         val validPnPIdCharacteristic = PnPIdCharacteristic(mockPopulatedCharacteristic)
         Assert.assertEquals(mockProdVersionInt, validPnPIdCharacteristic.productVersion)
+
+        validPnPIdCharacteristic.productVersion = mockProdVersionInt + 1
+        Assert.assertEquals(mockProdVersionInt + 1, validPnPIdCharacteristic.productVersion)
     }
 }

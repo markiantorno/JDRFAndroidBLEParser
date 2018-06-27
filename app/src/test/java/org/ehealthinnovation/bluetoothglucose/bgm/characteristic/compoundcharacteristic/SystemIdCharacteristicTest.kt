@@ -111,12 +111,18 @@ class SystemIdCharacteristicTest {
     fun getManufacturerIdentifier() {
         var validSystemIdCharacteristic = SystemIdCharacteristic(mockPopulatedCharacteristic)
         Assert.assertEquals(mockManufacturerID, validSystemIdCharacteristic.manufacturerIdentifier)
+
+        validSystemIdCharacteristic.manufacturerIdentifier = mockManufacturerID + 1
+        Assert.assertEquals(mockManufacturerID + 1, validSystemIdCharacteristic.manufacturerIdentifier!!)
     }
 
     @Test
     fun getOui() {
         var validSystemIdCharacteristic = SystemIdCharacteristic(mockPopulatedCharacteristic)
         Assert.assertEquals(mockOui, validSystemIdCharacteristic.oui)
+
+        validSystemIdCharacteristic.oui = mockOui + 1
+        Assert.assertEquals(mockOui + 1, validSystemIdCharacteristic.oui!!)
     }
 
     @Test

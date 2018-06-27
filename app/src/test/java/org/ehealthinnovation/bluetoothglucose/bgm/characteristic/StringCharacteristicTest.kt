@@ -21,6 +21,14 @@ class StringCharacteristicTest : BaseTest() {
     }
 
     @Test
+    fun testValueString() {
+        val stringCharacteristic = StringCharacteristic(null, gattIdentifier)
+        val testString = "picard"
+        stringCharacteristic.valueString = testString
+        Assert.assertEquals(testString, stringCharacteristic.valueString)
+    }
+
+    @Test
     fun parseNullCharacteristic() {
         val stringCharacteristic = StringCharacteristic(null, gattIdentifier)
         Assert.assertFalse(stringCharacteristic.successfulParsing)
