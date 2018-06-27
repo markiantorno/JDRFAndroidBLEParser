@@ -1,7 +1,7 @@
 package org.ehealthinnovation.bluetoothglucose.bgm.characteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
-import org.ehealthinnovation.bluetoothglucose.bgm.encodedValues.GattCharacteristic
+import org.ehealthinnovation.bluetoothglucose.bgm.encodedvalues.GattCharacteristic.*
 
 /**
  * The value of this characteristic is a UTF-8 string representing the firmware revision for the
@@ -10,7 +10,7 @@ import org.ehealthinnovation.bluetoothglucose.bgm.encodedValues.GattCharacterist
  * Created by miantorno on 2018-06-22.
  */
 class FirmwareRevisionStringCharacteristic(characteristic: BluetoothGattCharacteristic?) :
-        StringCharacteristic(characteristic, GattCharacteristic.FIRMWARE_REVISION_STRING.assigned) {
+        StringCharacteristic(characteristic, FIRMWARE_REVISION_STRING.assigned) {
     override val tag = FirmwareRevisionStringCharacteristic::class.java.canonicalName as String
 }
 
@@ -21,7 +21,7 @@ class FirmwareRevisionStringCharacteristic(characteristic: BluetoothGattCharacte
  * Created by miantorno on 2018-06-22.
  */
 class HardwareRevisionStringCharacteristic(characteristic: BluetoothGattCharacteristic?) :
-        StringCharacteristic(characteristic, GattCharacteristic.HARDWARE_REVISION_STRING.assigned) {
+        StringCharacteristic(characteristic, HARDWARE_REVISION_STRING.assigned) {
     override val tag = HardwareRevisionStringCharacteristic::class.java.canonicalName as String
 }
 
@@ -37,7 +37,7 @@ class HardwareRevisionStringCharacteristic(characteristic: BluetoothGattCharacte
  * Created by miantorno on 2018-06-22.
  */
 class IEEERegulatoryCertDataListCharacteristic(characteristic: BluetoothGattCharacteristic?) :
-        StringCharacteristic(characteristic, GattCharacteristic.IEEE_11073_20601_REGULATORY_CERTIFICATION_DATA_LIST.assigned) {
+        StringCharacteristic(characteristic, IEEE_11073_20601_REGULATORY_CERTIFICATION_DATA_LIST.assigned) {
     override val tag = IEEERegulatoryCertDataListCharacteristic::class.java.canonicalName as String
 }
 
@@ -48,7 +48,7 @@ class IEEERegulatoryCertDataListCharacteristic(characteristic: BluetoothGattChar
  * Created by miantorno on 2018-06-22.
  */
 class ManufacturerNameStringCharacteristic(characteristic: BluetoothGattCharacteristic?) :
-        StringCharacteristic(characteristic, GattCharacteristic.MANUFACTURER_NAME_STRING.assigned) {
+        StringCharacteristic(characteristic, MANUFACTURER_NAME_STRING.assigned) {
     override val tag = ManufacturerNameStringCharacteristic::class.java.canonicalName as String
 }
 
@@ -59,7 +59,7 @@ class ManufacturerNameStringCharacteristic(characteristic: BluetoothGattCharacte
  * Created by miantorno on 2018-06-22.
  */
 class ModelNumberStringCharacteristic(characteristic: BluetoothGattCharacteristic?) :
-        StringCharacteristic(characteristic, GattCharacteristic.MODEL_NUMBER_STRING.assigned) {
+        StringCharacteristic(characteristic, MODEL_NUMBER_STRING.assigned) {
     override val tag = ModelNumberStringCharacteristic::class.java.canonicalName as String
 }
 
@@ -70,7 +70,7 @@ class ModelNumberStringCharacteristic(characteristic: BluetoothGattCharacteristi
  * Created by miantorno on 2018-06-22.
  */
 class SerialNumberStringCharacteristic(characteristic: BluetoothGattCharacteristic?) :
-        StringCharacteristic(characteristic, GattCharacteristic.SERIAL_NUMBER_STRING.assigned) {
+        StringCharacteristic(characteristic, SERIAL_NUMBER_STRING.assigned) {
     override val tag = SerialNumberStringCharacteristic::class.java.canonicalName as String
 }
 
@@ -81,6 +81,6 @@ class SerialNumberStringCharacteristic(characteristic: BluetoothGattCharacterist
  * Created by miantorno on 2018-06-22.
  */
 class SoftwareRevisionStringCharacteristic(characteristic: BluetoothGattCharacteristic?) :
-        StringCharacteristic(characteristic, GattCharacteristic.SOFTWARE_REVISION_STRING.assigned) {
+        StringCharacteristic(characteristic, SOFTWARE_REVISION_STRING.assigned) {
     override val tag = SoftwareRevisionStringCharacteristic::class.java.canonicalName as String
 }

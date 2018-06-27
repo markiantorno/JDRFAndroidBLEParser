@@ -1,12 +1,11 @@
 package org.ehealthinnovation.bluetoothglucose.bgm.characteristic.compoundcharacteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
-import org.ehealthinnovation.bluetoothglucose.bgm.characteristic.BaseCharacteristic
-import org.ehealthinnovation.bluetoothglucose.bgm.encodedValues.GattCharacteristic
-import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT32
 import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT16
 import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT8
 import android.util.Log
+import org.ehealthinnovation.bluetoothglucose.bgm.characteristic.BaseCharacteristic
+import org.ehealthinnovation.bluetoothglucose.bgm.encodedvalues.GattCharacteristic
 
 /**
  * The SYSTEM ID characteristic consists of a structure with two fields. The first field are the

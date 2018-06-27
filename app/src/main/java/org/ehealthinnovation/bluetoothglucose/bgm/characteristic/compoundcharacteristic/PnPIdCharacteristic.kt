@@ -5,9 +5,9 @@ import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT16
 import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT8
 import android.util.Log
 import org.ehealthinnovation.bluetoothglucose.bgm.characteristic.BaseCharacteristic
-import org.ehealthinnovation.bluetoothglucose.bgm.encodedValues.GattCharacteristic
-import org.ehealthinnovation.bluetoothglucose.bgm.encodedValues.VendorId
-import org.ehealthinnovation.bluetoothglucose.bgm.encodedValues.VendorId.Companion.getVendorIdFromValue
+import org.ehealthinnovation.bluetoothglucose.bgm.encodedvalues.GattCharacteristic
+import org.ehealthinnovation.bluetoothglucose.bgm.encodedvalues.pnpid.VendorId
+import org.ehealthinnovation.bluetoothglucose.bgm.encodedvalues.pnpid.VendorId.Companion.fromVendorId
 
 /**
  * The PnP_ID characteristic is a set of values that used to create a device ID value that is
@@ -33,7 +33,7 @@ class PnPIdCharacteristic(characteristic: BluetoothGattCharacteristic?) :
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
         var errorFreeParse = false
         try {
-            vendorIdSource = getVendorIdFromValue(getNextIntValue(c, FORMAT_UINT8))
+            vendorIdSource = fromVendorId(getNextIntValue(c, FORMAT_UINT8))
             vendorId = getNextIntValue(c, FORMAT_UINT16)
             productId = getNextIntValue(c, FORMAT_UINT16)
             productVersion = getNextIntValue(c, FORMAT_UINT16)

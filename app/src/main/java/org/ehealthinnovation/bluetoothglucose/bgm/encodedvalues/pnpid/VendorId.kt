@@ -1,6 +1,4 @@
-package org.ehealthinnovation.bluetoothglucose.bgm.encodedValues
-
-import java.util.HashMap
+package org.ehealthinnovation.bluetoothglucose.bgm.encodedvalues.pnpid
 
 /**
  * The PnP_ID characteristic returns its value when read using the GATT Characteristic Value Read procedure.
@@ -33,17 +31,7 @@ enum class VendorId constructor(val vendorId: Int, val value: String) {
     DIS_VENDOR_ID_SOURCE_USB_FORUM(2, "USB Implementers Forum assigned Vendor ID value");
 
     companion object {
-
-        private val codeValueMap = HashMap<Int, VendorId>()
-
-        init {
-            for (vendorId in VendorId.values()) {
-                codeValueMap[vendorId.vendorId] = vendorId
-            }
-        }
-
-        fun getVendorIdFromValue(vendorId: Int): VendorId? {
-            return codeValueMap[vendorId]
-        }
+        private val map = VendorId.values().associateBy(VendorId::vendorId)
+        fun fromVendorId(type: Int) = map[type]
     }
 }

@@ -2,7 +2,6 @@ package org.ehealthinnovation.bluetoothglucose.bgm.characteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
-import org.ehealthinnovation.bluetoothglucose.bgm.encodedValues.GattCharacteristic
 
 /**
  * Many base Bluetooth Characteristics only have one [String] value associated with them. These

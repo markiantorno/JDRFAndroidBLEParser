@@ -1,4 +1,4 @@
-package org.ehealthinnovation.bluetoothglucose.bgm.encodedValues
+package org.ehealthinnovation.bluetoothglucose.bgm.encodedvalues
 
 /**
  * Characteristics are defined attribute types that contain a single logical value. All Assigned

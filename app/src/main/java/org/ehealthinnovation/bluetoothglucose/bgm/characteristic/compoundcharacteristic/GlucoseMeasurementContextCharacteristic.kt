@@ -1,0 +1,4 @@
+package org.ehealthinnovation.bluetoothglucose.bgm.characteristic.compoundcharacteristic
+
+class GlucoseMeasurementContextCharacteristic {
+}
