@@ -6,7 +6,7 @@ import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT8
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import org.ehealthinnovation.bluetoothglucose.BaseTest
-import org.ehealthinnovation.bluetoothglucose.bgm.encodedValues.VendorId
+import org.ehealthinnovation.bluetoothglucose.bgm.encodedvalues.pnpid.VendorId
 import org.junit.Assert
 import org.junit.Test
 
@@ -27,61 +27,61 @@ class PnPIdCharacteristicTest : BaseTest() {
     private val nullVal: Int? = null
 
     private val mockPopulatedCharacteristic = mock<BluetoothGattCharacteristic> {
-        on { getIntValue(FORMAT_UINT8,0) } doReturn mockVendorIdSourceBytes
-        on { getIntValue(FORMAT_UINT16,1) } doReturn mockVendorIdBytes
-        on { getIntValue(FORMAT_UINT16,3) } doReturn mockProductIdBytes
-        on { getIntValue(FORMAT_UINT16,5) } doReturn mockProdVersionBytes
+        on { getIntValue(FORMAT_UINT8, 0) } doReturn mockVendorIdSourceBytes
+        on { getIntValue(FORMAT_UINT16, 1) } doReturn mockVendorIdBytes
+        on { getIntValue(FORMAT_UINT16, 3) } doReturn mockProductIdBytes
+        on { getIntValue(FORMAT_UINT16, 5) } doReturn mockProdVersionBytes
     }
 
     @Test
     fun testTag() {
         var testTagCharacteristic = PnPIdCharacteristic(null)
-        Assert.assertEquals(PnPIdCharacteristic::class.java.canonicalName ,testTagCharacteristic.tag)
+        Assert.assertEquals(PnPIdCharacteristic::class.java.canonicalName, testTagCharacteristic.tag)
     }
 
     @Test
     fun testAssignedNumber() {
         var testTagCharacteristic = PnPIdCharacteristic(null)
-        Assert.assertEquals(PnPIDAssignedNumber,testTagCharacteristic.uuid)
+        Assert.assertEquals(PnPIDAssignedNumber, testTagCharacteristic.uuid)
     }
 
     @Test
     fun testPartialParseFail() {
         val mockNullVendorIdSourceCharacteristic = mock<BluetoothGattCharacteristic> {
-            on { getIntValue(FORMAT_UINT8,0) } doReturn nullVal
-            on { getIntValue(FORMAT_UINT16,1) } doReturn mockVendorIdBytes
-            on { getIntValue(FORMAT_UINT16,3) } doReturn mockProductIdBytes
-            on { getIntValue(FORMAT_UINT16,5) } doReturn mockProdVersionBytes
+            on { getIntValue(FORMAT_UINT8, 0) } doReturn nullVal
+            on { getIntValue(FORMAT_UINT16, 1) } doReturn mockVendorIdBytes
+            on { getIntValue(FORMAT_UINT16, 3) } doReturn mockProductIdBytes
+            on { getIntValue(FORMAT_UINT16, 5) } doReturn mockProdVersionBytes
         }
 
         val nullVendorIdSource = PnPIdCharacteristic(mockNullVendorIdSourceCharacteristic)
         Assert.assertFalse(nullVendorIdSource.successfulParsing)
 
         val mockNullVendorIdCharacteristic = mock<BluetoothGattCharacteristic> {
-            on { getIntValue(FORMAT_UINT8,0) } doReturn mockVendorIdSourceBytes
-            on { getIntValue(FORMAT_UINT16,1) } doReturn nullVal
-            on { getIntValue(FORMAT_UINT16,3) } doReturn mockProductIdBytes
-            on { getIntValue(FORMAT_UINT16,5) } doReturn mockProdVersionBytes
+            on { getIntValue(FORMAT_UINT8, 0) } doReturn mockVendorIdSourceBytes
+            on { getIntValue(FORMAT_UINT16, 1) } doReturn nullVal
+            on { getIntValue(FORMAT_UINT16, 3) } doReturn mockProductIdBytes
+            on { getIntValue(FORMAT_UINT16, 5) } doReturn mockProdVersionBytes
         }
 
         val nullVendorId = PnPIdCharacteristic(mockNullVendorIdCharacteristic)
         Assert.assertFalse(nullVendorId.successfulParsing)
 
         val mockNullProdIdCharacteristic = mock<BluetoothGattCharacteristic> {
-            on { getIntValue(FORMAT_UINT8,0) } doReturn mockVendorIdSourceBytes
-            on { getIntValue(FORMAT_UINT16,1) } doReturn mockVendorIdBytes
-            on { getIntValue(FORMAT_UINT16,3) } doReturn nullVal
-            on { getIntValue(FORMAT_UINT16,5) } doReturn mockProdVersionBytes
+            on { getIntValue(FORMAT_UINT8, 0) } doReturn mockVendorIdSourceBytes
+            on { getIntValue(FORMAT_UINT16, 1) } doReturn mockVendorIdBytes
+            on { getIntValue(FORMAT_UINT16, 3) } doReturn nullVal
+            on { getIntValue(FORMAT_UINT16, 5) } doReturn mockProdVersionBytes
         }
 
         val nullProdId = PnPIdCharacteristic(mockNullProdIdCharacteristic)
         Assert.assertFalse(nullProdId.successfulParsing)
 
         val mockNullProdVersionCharacteristic = mock<BluetoothGattCharacteristic> {
-            on { getIntValue(FORMAT_UINT8,0) } doReturn mockVendorIdSourceBytes
-            on { getIntValue(FORMAT_UINT16,1) } doReturn mockVendorIdBytes
-            on { getIntValue(FORMAT_UINT16,3) } doReturn mockProductIdBytes
-            on { getIntValue(FORMAT_UINT16,5) } doReturn nullVal
+            on { getIntValue(FORMAT_UINT8, 0) } doReturn mockVendorIdSourceBytes
+            on { getIntValue(FORMAT_UINT16, 1) } doReturn mockVendorIdBytes
+            on { getIntValue(FORMAT_UINT16, 3) } doReturn mockProductIdBytes
+            on { getIntValue(FORMAT_UINT16, 5) } doReturn nullVal
         }
 
         val nullProdVersion = PnPIdCharacteristic(mockNullProdVersionCharacteristic)

@@ -8,7 +8,7 @@ import org.junit.Rule
 open class BaseTest {
 
     @get:Rule
-    var watchman = object : TestWatcher() {
+    val watchman = object : TestWatcher() {
         override fun succeeded(d: Description?) {
             super.succeeded(d)
             println(ok())

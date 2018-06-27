@@ -1,14 +1,12 @@
 package org.ehealthinnovation.bluetoothglucose.bgm.characteristic.compoundcharacteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
-import android.bluetooth.BluetoothGattCharacteristic.*
+import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT16
+import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT8
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import org.ehealthinnovation.bluetoothglucose.bgm.encodedValues.VendorId
 import org.junit.Assert
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Created by miantorno on 2018-06-26.
@@ -35,17 +33,17 @@ class SystemIdCharacteristicTest {
      * required to be 0x123456FFFE9ABCDE.
      */
     private val mockPopulatedCharacteristic = mock<BluetoothGattCharacteristic> {
-        on { getIntValue(FORMAT_UINT16,0) } doReturn mockManufacturerIDFirst16
-        on { getIntValue(FORMAT_UINT16,2) } doReturn mockManufacturerIDSecond16
-        on { getIntValue(FORMAT_UINT8,4) } doReturn mockManufacturerIDLast8
-        on { getIntValue(FORMAT_UINT16,5) } doReturn mockOuiFirst16
-        on { getIntValue(FORMAT_UINT8,7) } doReturn mockOuiLast8
+        on { getIntValue(FORMAT_UINT16, 0) } doReturn mockManufacturerIDFirst16
+        on { getIntValue(FORMAT_UINT16, 2) } doReturn mockManufacturerIDSecond16
+        on { getIntValue(FORMAT_UINT8, 4) } doReturn mockManufacturerIDLast8
+        on { getIntValue(FORMAT_UINT16, 5) } doReturn mockOuiFirst16
+        on { getIntValue(FORMAT_UINT8, 7) } doReturn mockOuiLast8
     }
 
     @Test
     fun testTag() {
         var testTagCharacteristic = SystemIdCharacteristic(null)
-        Assert.assertEquals(SystemIdCharacteristic::class.java.canonicalName ,testTagCharacteristic.tag)
+        Assert.assertEquals(SystemIdCharacteristic::class.java.canonicalName, testTagCharacteristic.tag)
     }
 
     @Test
@@ -57,51 +55,51 @@ class SystemIdCharacteristicTest {
     @Test
     fun testPartialParseFail() {
         val mockNullIDFirst16SourceCharacteristic = mock<BluetoothGattCharacteristic> {
-            on { getIntValue(FORMAT_UINT16,0) } doReturn nullVal
-            on { getIntValue(FORMAT_UINT16,2) } doReturn mockManufacturerIDSecond16
-            on { getIntValue(FORMAT_UINT8,4) } doReturn mockManufacturerIDLast8
-            on { getIntValue(FORMAT_UINT16,5) } doReturn mockOuiFirst16
-            on { getIntValue(FORMAT_UINT8,7) } doReturn mockOuiLast8
+            on { getIntValue(FORMAT_UINT16, 0) } doReturn nullVal
+            on { getIntValue(FORMAT_UINT16, 2) } doReturn mockManufacturerIDSecond16
+            on { getIntValue(FORMAT_UINT8, 4) } doReturn mockManufacturerIDLast8
+            on { getIntValue(FORMAT_UINT16, 5) } doReturn mockOuiFirst16
+            on { getIntValue(FORMAT_UINT8, 7) } doReturn mockOuiLast8
         }
         val nullIDFirst16 = SystemIdCharacteristic(mockNullIDFirst16SourceCharacteristic)
         Assert.assertFalse(nullIDFirst16.successfulParsing)
 
         val mockNullIdSecond16SourceCharacteristic = mock<BluetoothGattCharacteristic> {
-            on { getIntValue(FORMAT_UINT16,0) } doReturn mockManufacturerIDFirst16
-            on { getIntValue(FORMAT_UINT16,2) } doReturn nullVal
-            on { getIntValue(FORMAT_UINT8,4) } doReturn mockManufacturerIDLast8
-            on { getIntValue(FORMAT_UINT16,5) } doReturn mockOuiFirst16
-            on { getIntValue(FORMAT_UINT8,7) } doReturn mockOuiLast8
+            on { getIntValue(FORMAT_UINT16, 0) } doReturn mockManufacturerIDFirst16
+            on { getIntValue(FORMAT_UINT16, 2) } doReturn nullVal
+            on { getIntValue(FORMAT_UINT8, 4) } doReturn mockManufacturerIDLast8
+            on { getIntValue(FORMAT_UINT16, 5) } doReturn mockOuiFirst16
+            on { getIntValue(FORMAT_UINT8, 7) } doReturn mockOuiLast8
         }
         val nullIDsecond16 = SystemIdCharacteristic(mockNullIdSecond16SourceCharacteristic)
         Assert.assertFalse(nullIDsecond16.successfulParsing)
 
         val mockNullIDLast8SourceCharacteristic = mock<BluetoothGattCharacteristic> {
-            on { getIntValue(FORMAT_UINT16,0) } doReturn mockManufacturerIDFirst16
-            on { getIntValue(FORMAT_UINT16,2) } doReturn mockManufacturerIDSecond16
-            on { getIntValue(FORMAT_UINT8,4) } doReturn nullVal
-            on { getIntValue(FORMAT_UINT16,5) } doReturn mockOuiFirst16
-            on { getIntValue(FORMAT_UINT8,7) } doReturn mockOuiLast8
+            on { getIntValue(FORMAT_UINT16, 0) } doReturn mockManufacturerIDFirst16
+            on { getIntValue(FORMAT_UINT16, 2) } doReturn mockManufacturerIDSecond16
+            on { getIntValue(FORMAT_UINT8, 4) } doReturn nullVal
+            on { getIntValue(FORMAT_UINT16, 5) } doReturn mockOuiFirst16
+            on { getIntValue(FORMAT_UINT8, 7) } doReturn mockOuiLast8
         }
         val nullIDLast8 = SystemIdCharacteristic(mockNullIDLast8SourceCharacteristic)
         Assert.assertFalse(nullIDLast8.successfulParsing)
 
         val mockNullOuiFisrt16SourceCharacteristic = mock<BluetoothGattCharacteristic> {
-            on { getIntValue(FORMAT_UINT16,0) } doReturn mockManufacturerIDFirst16
-            on { getIntValue(FORMAT_UINT16,2) } doReturn mockManufacturerIDSecond16
-            on { getIntValue(FORMAT_UINT8,4) } doReturn mockManufacturerIDLast8
-            on { getIntValue(FORMAT_UINT16,5) } doReturn nullVal
-            on { getIntValue(FORMAT_UINT8,7) } doReturn mockOuiLast8
+            on { getIntValue(FORMAT_UINT16, 0) } doReturn mockManufacturerIDFirst16
+            on { getIntValue(FORMAT_UINT16, 2) } doReturn mockManufacturerIDSecond16
+            on { getIntValue(FORMAT_UINT8, 4) } doReturn mockManufacturerIDLast8
+            on { getIntValue(FORMAT_UINT16, 5) } doReturn nullVal
+            on { getIntValue(FORMAT_UINT8, 7) } doReturn mockOuiLast8
         }
         val nullOuiFisrt16 = SystemIdCharacteristic(mockNullOuiFisrt16SourceCharacteristic)
         Assert.assertFalse(nullOuiFisrt16.successfulParsing)
 
         val mockNullOuiLast8SourceCharacteristic = mock<BluetoothGattCharacteristic> {
-            on { getIntValue(FORMAT_UINT16,0) } doReturn mockManufacturerIDFirst16
-            on { getIntValue(FORMAT_UINT16,2) } doReturn mockManufacturerIDSecond16
-            on { getIntValue(FORMAT_UINT8,4) } doReturn mockManufacturerIDLast8
-            on { getIntValue(FORMAT_UINT16,5) } doReturn mockOuiFirst16
-            on { getIntValue(FORMAT_UINT8,7) } doReturn nullVal
+            on { getIntValue(FORMAT_UINT16, 0) } doReturn mockManufacturerIDFirst16
+            on { getIntValue(FORMAT_UINT16, 2) } doReturn mockManufacturerIDSecond16
+            on { getIntValue(FORMAT_UINT8, 4) } doReturn mockManufacturerIDLast8
+            on { getIntValue(FORMAT_UINT16, 5) } doReturn mockOuiFirst16
+            on { getIntValue(FORMAT_UINT8, 7) } doReturn nullVal
         }
         val nullOuiLast8 = SystemIdCharacteristic(mockNullOuiLast8SourceCharacteristic)
         Assert.assertFalse(nullOuiLast8.successfulParsing)
