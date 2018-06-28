@@ -16,14 +16,12 @@ enum class Flags constructor(val bit: Int) {
     /**
      *
      */
-    private fun parseFlags(flagsValue: Int): EnumSet<Flags> {
-        val flags = EnumSet.noneOf(Flags::class.java)
-        for (flag in Flags.values()) {
-            val flagValue = flag.bit
-            if (flagValue and flagsValue == flagValue) {
-                flags.add(flag)
-            }
+    private fun parseFlags(characteristicFlags: Int): EnumSet<Flags> {
+        val setFlags = EnumSet.noneOf(Flags::class.java)
+        Flags.values().forEach {
+            val flag = it.bit
+            if (flag and characteristicFlags == flag) setFlags.add(it)
         }
-        return flags
+        return setFlags
     }
 }
