@@ -3,13 +3,11 @@ package org.ehealthinnovation.bluetoothglucose.bgm.characteristic.compoundcharac
 import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT16
 import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT8
-import android.support.test.runner.AndroidJUnitRunner
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import org.ehealthinnovation.bluetoothglucose.BaseTest
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
 
 /**
  * Created by miantorno on 2018-06-26.
@@ -47,7 +45,8 @@ class SystemIdCharacteristicTest : BaseTest() {
     fun tester() {
         val payload = byteArrayOf(0xde.toByte(), 0xbc.toByte(), 0x9a.toByte(),
                 0xfe.toByte(), 0xff.toByte(), 0x56.toByte(), 0x34.toByte(), 0x12.toByte())
-        var validSystemIdCharacteristic = SystemIdCharacteristic(buildCharacteristic(systemIdAssignedNumber, payload))
+
+        var validSystemIdCharacteristic = SystemIdCharacteristic(mockBTCharacteristic(payload))
         Assert.assertEquals(mockManufacturerID, validSystemIdCharacteristic.manufacturerIdentifier)
     }
 
