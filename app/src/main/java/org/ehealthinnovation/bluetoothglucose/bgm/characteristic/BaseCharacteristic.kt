@@ -16,7 +16,7 @@ import android.util.Log
  *
  * Created by miantorno on 2018-06-19.
  */
-abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, val uuid: String) {
+abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, val uuid: Int) {
     open val tag = BaseCharacteristic::class.java.canonicalName as String
     val nullValueException = "Null characteristic interpretation, aborting parsing."
     val rawData: ByteArray = characteristic?.value ?: ByteArray(0)
