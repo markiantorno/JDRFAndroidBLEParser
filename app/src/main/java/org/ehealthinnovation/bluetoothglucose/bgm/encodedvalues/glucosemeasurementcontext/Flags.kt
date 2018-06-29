@@ -2,6 +2,10 @@ package org.ehealthinnovation.bluetoothglucose.bgm.encodedvalues.glucosemeasurem
 
 import java.util.*
 
+/**
+ * These flags define which data fields are present in the Characteristic value.
+ * https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.glucose_measurement_context.xml
+ */
 enum class Flags constructor(val bit: Int) {
 
     CARBOHYDRATE_ID_AND_CARBOHYDRATE_PRESENT(1 shl 0),
@@ -13,15 +17,18 @@ enum class Flags constructor(val bit: Int) {
     HBA1C_PRESENT(1 shl 6),
     EXTENDED_FLAGS_PRESENT(1 shl 7);
 
-    /**
-     *
-     */
-    private fun parseFlags(characteristicFlags: Int): EnumSet<Flags> {
-        val setFlags = EnumSet.noneOf(Flags::class.java)
-        Flags.values().forEach {
-            val flag = it.bit
-            if (flag and characteristicFlags == flag) setFlags.add(it)
+    companion object {
+        /**
+         * Takes a passed in 8bit flag value and extracts the set mask values. Returns an
+         * [EnumSet]<[Flags]> of set properties
+         */
+        fun parseFlags(characteristicFlags: Int): EnumSet<Flags> {
+            val setFlags = EnumSet.noneOf(Flags::class.java)
+            Flags.values().forEach {
+                val flag = it.bit
+                if (flag and characteristicFlags == flag) setFlags.add(it)
+            }
+            return setFlags
         }
-        return setFlags
     }
 }
