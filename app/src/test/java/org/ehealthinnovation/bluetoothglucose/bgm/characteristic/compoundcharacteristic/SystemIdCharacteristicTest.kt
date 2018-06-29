@@ -33,22 +33,8 @@ class SystemIdCharacteristicTest : BaseTest() {
      * 0x123456 and the Company Assigned Identifier is 0x9ABCDE, then the System Identifier is
      * required to be 0x123456FFFE9ABCDE.
      */
-    private val mockPopulatedCharacteristic = mock<BluetoothGattCharacteristic> {
-        on { getIntValue(FORMAT_UINT16, 0) } doReturn mockManufacturerIDFirst16
-        on { getIntValue(FORMAT_UINT16, 2) } doReturn mockManufacturerIDSecond16
-        on { getIntValue(FORMAT_UINT8, 4) } doReturn mockManufacturerIDLast8
-        on { getIntValue(FORMAT_UINT16, 5) } doReturn mockOuiFirst16
-        on { getIntValue(FORMAT_UINT8, 7) } doReturn mockOuiLast8
-    }
-
-    @Test
-    fun tester() {
-        val payload = byteArrayOf(0xde.toByte(), 0xbc.toByte(), 0x9a.toByte(),
-                0xfe.toByte(), 0xff.toByte(), 0x56.toByte(), 0x34.toByte(), 0x12.toByte())
-
-        var validSystemIdCharacteristic = SystemIdCharacteristic(mockBTCharacteristic(payload))
-        Assert.assertEquals(mockManufacturerID, validSystemIdCharacteristic.manufacturerIdentifier)
-    }
+    private val payload = byteArrayOf(0xde.toByte(), 0xbc.toByte(), 0x9a.toByte(),
+            0xfe.toByte(), 0xff.toByte(), 0x56.toByte(), 0x34.toByte(), 0x12.toByte())
 
     @Test
     fun testTag() {
@@ -117,7 +103,7 @@ class SystemIdCharacteristicTest : BaseTest() {
 
     @Test
     fun getManufacturerIdentifier() {
-        var validSystemIdCharacteristic = SystemIdCharacteristic(mockPopulatedCharacteristic)
+        var validSystemIdCharacteristic = SystemIdCharacteristic(mockBTCharacteristic(payload))
         Assert.assertEquals(mockManufacturerID, validSystemIdCharacteristic.manufacturerIdentifier)
 
         validSystemIdCharacteristic.manufacturerIdentifier = mockManufacturerID + 1
@@ -126,7 +112,7 @@ class SystemIdCharacteristicTest : BaseTest() {
 
     @Test
     fun getOui() {
-        var validSystemIdCharacteristic = SystemIdCharacteristic(mockPopulatedCharacteristic)
+        var validSystemIdCharacteristic = SystemIdCharacteristic(mockBTCharacteristic(payload))
         Assert.assertEquals(mockOui, validSystemIdCharacteristic.oui)
 
         validSystemIdCharacteristic.oui = mockOui + 1
@@ -135,7 +121,7 @@ class SystemIdCharacteristicTest : BaseTest() {
 
     @Test
     fun testSuccessfulParse() {
-        var validSystemIdCharacteristic = SystemIdCharacteristic(mockPopulatedCharacteristic)
+        var validSystemIdCharacteristic = SystemIdCharacteristic(mockBTCharacteristic(payload))
         Assert.assertTrue(validSystemIdCharacteristic.successfulParsing)
     }
 }
