@@ -9,7 +9,7 @@ import org.junit.Test
 
 class StringCharacteristicTest : BaseTest() {
 
-    private val gattIdentifier = "0x6D69"
+    private val gattIdentifier = 0x6D69
     private val valueString = "markiantorno"
     private val valueBytes = byteArrayOf(23, 6, 83)
 

@@ -1,8 +1,8 @@
 package org.ehealthinnovation.bluetoothglucose.bgm.characteristic.compoundcharacteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
-import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT16
 import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT8
+import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT16
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import org.ehealthinnovation.bluetoothglucose.BaseTest
@@ -15,7 +15,7 @@ import org.junit.Test
  */
 class PnPIdCharacteristicTest : BaseTest() {
 
-    private val PnPIDAssignedNumber: String = "0x2A50"
+    private val pnpIdAssignedNumber: Int = 0x2A50
     private val mockVendorIdSourceBytes: Int = 0x01
     private val mockVendorIdSource: VendorId = VendorId.DIS_VENDOR_ID_SOURCE_BLUETOOTHSIG
     private val mockVendorIdBytes: Int = 0x166A
@@ -26,12 +26,8 @@ class PnPIdCharacteristicTest : BaseTest() {
     private val mockProdVersionInt: Int = 31
     private val nullVal: Int? = null
 
-    private val mockPopulatedCharacteristic = mock<BluetoothGattCharacteristic> {
-        on { getIntValue(FORMAT_UINT8, 0) } doReturn mockVendorIdSourceBytes
-        on { getIntValue(FORMAT_UINT16, 1) } doReturn mockVendorIdBytes
-        on { getIntValue(FORMAT_UINT16, 3) } doReturn mockProductIdBytes
-        on { getIntValue(FORMAT_UINT16, 5) } doReturn mockProdVersionBytes
-    }
+    private val payload = byteArrayOf(0x01.toByte(), 0x6a.toByte(), 0x16.toByte(),
+            0x1b.toByte(), 0x09.toByte(), 0x1f.toByte(), 0x00.toByte())
 
     @Test
     fun testTag() {
@@ -42,7 +38,7 @@ class PnPIdCharacteristicTest : BaseTest() {
     @Test
     fun testAssignedNumber() {
         var testTagCharacteristic = PnPIdCharacteristic(null)
-        Assert.assertEquals(PnPIDAssignedNumber, testTagCharacteristic.uuid)
+        Assert.assertEquals(pnpIdAssignedNumber, testTagCharacteristic.uuid)
     }
 
     @Test
@@ -90,13 +86,13 @@ class PnPIdCharacteristicTest : BaseTest() {
 
     @Test
     fun testSuccessfulParse() {
-        val validPnPIdCharacteristic = PnPIdCharacteristic(mockPopulatedCharacteristic)
+        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(payload))
         Assert.assertTrue(validPnPIdCharacteristic.successfulParsing)
     }
 
     @Test
     fun testVendorIdSource() {
-        val validPnPIdCharacteristic = PnPIdCharacteristic(mockPopulatedCharacteristic)
+        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(payload))
         Assert.assertEquals(mockVendorIdSource, validPnPIdCharacteristic.vendorIdSource)
 
         validPnPIdCharacteristic.vendorIdSource = VendorId.DIS_VENDOR_ID_SOURCE_USB_FORUM
@@ -105,7 +101,7 @@ class PnPIdCharacteristicTest : BaseTest() {
 
     @Test
     fun testVendorId() {
-        val validPnPIdCharacteristic = PnPIdCharacteristic(mockPopulatedCharacteristic)
+        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(payload))
         Assert.assertEquals(mockVendorIdInt, validPnPIdCharacteristic.vendorId)
 
         validPnPIdCharacteristic.vendorId = mockVendorIdInt + 1
@@ -114,7 +110,7 @@ class PnPIdCharacteristicTest : BaseTest() {
 
     @Test
     fun testProductId() {
-        val validPnPIdCharacteristic = PnPIdCharacteristic(mockPopulatedCharacteristic)
+        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(payload))
         Assert.assertEquals(mockProductIdInt, validPnPIdCharacteristic.productId)
 
         validPnPIdCharacteristic.productId = mockProductIdInt + 1
@@ -123,7 +119,7 @@ class PnPIdCharacteristicTest : BaseTest() {
 
     @Test
     fun testProductVersion() {
-        val validPnPIdCharacteristic = PnPIdCharacteristic(mockPopulatedCharacteristic)
+        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(payload))
         Assert.assertEquals(mockProdVersionInt, validPnPIdCharacteristic.productVersion)
 
         validPnPIdCharacteristic.productVersion = mockProdVersionInt + 1

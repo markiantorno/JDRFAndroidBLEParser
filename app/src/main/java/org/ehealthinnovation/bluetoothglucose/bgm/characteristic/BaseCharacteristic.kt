@@ -1,22 +1,15 @@
 package org.ehealthinnovation.bluetoothglucose.bgm.characteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
-import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT8
-import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT16
-import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT32
-import android.bluetooth.BluetoothGattCharacteristic.FORMAT_SINT8
-import android.bluetooth.BluetoothGattCharacteristic.FORMAT_SINT16
-import android.bluetooth.BluetoothGattCharacteristic.FORMAT_SINT32
-import android.bluetooth.BluetoothGattCharacteristic.FORMAT_SFLOAT
-import android.bluetooth.BluetoothGattCharacteristic.FORMAT_FLOAT
 import android.util.Log
+import org.ehealthinnovation.bluetoothglucose.bgm.encodedvalues.FormatType
 
 /**
  * Base characteristic which all defined characteristics must extend.
  *
  * Created by miantorno on 2018-06-19.
  */
-abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, val uuid: String) {
+abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, val uuid: Int) {
     open val tag = BaseCharacteristic::class.java.canonicalName as String
     val nullValueException = "Null characteristic interpretation, aborting parsing."
     val rawData: ByteArray = characteristic?.value ?: ByteArray(0)
@@ -119,14 +112,9 @@ abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, 
      */
     private fun getNextOffset(formatType: Int, currentIndex: Int): Int {
         var newIndex = currentIndex
-        newIndex += when (formatType) {
-            FORMAT_UINT8, FORMAT_SINT8 -> 1
-            FORMAT_UINT16, FORMAT_SINT16, FORMAT_SFLOAT -> 2
-            FORMAT_UINT32, FORMAT_SINT32, FORMAT_FLOAT -> 4
-            else -> {
-                Log.e(tag, "Bad format type, \"$formatType\", passed into get value...")
-            }
-        }
+        newIndex += FormatType.fromType(formatType)?.let {
+            it.length()
+        } ?: Log.e(tag, "Bad format type, \"$formatType\", passed into get value...")
         return newIndex
     }
 

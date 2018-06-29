@@ -1,8 +1,6 @@
 package org.ehealthinnovation.bluetoothglucose.bgm.characteristic.compoundcharacteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
-import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT16
-import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT8
 import android.util.Log
 import org.ehealthinnovation.bluetoothglucose.bgm.characteristic.BaseCharacteristic
 import org.ehealthinnovation.bluetoothglucose.bgm.encodedvalues.GattCharacteristic
@@ -33,10 +31,10 @@ class PnPIdCharacteristic(characteristic: BluetoothGattCharacteristic?) :
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
         var errorFreeParse = false
         try {
-            vendorIdSource = fromVendorId(getNextIntValue(c, FORMAT_UINT8))
-            vendorId = getNextIntValue(c, FORMAT_UINT16)
-            productId = getNextIntValue(c, FORMAT_UINT16)
-            productVersion = getNextIntValue(c, FORMAT_UINT16)
+            vendorIdSource = fromVendorId(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+            vendorId = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+            productId = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+            productVersion = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
             errorFreeParse = true
         } catch (e: NullPointerException) {
             Log.e(tag, nullValueException)
