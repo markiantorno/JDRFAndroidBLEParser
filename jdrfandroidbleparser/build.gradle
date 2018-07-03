@@ -1,0 +1,100 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "$jacocoVersion"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    // what to exclude from coverage report
+    // UI, "noise", generated classes, platform classes, etc.
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/*$ViewInjector*.*',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/*Fragment.*',
+            '**/*Activity.*'
+    ]
+
+    // generated classes
+    classDirectories = fileTree(
+            dir: "$buildDir/intermediates/classes/debug",
+            excludes: excludes
+    ) + fileTree(
+            dir: "$buildDir/tmp/kotlin-classes/debug",
+            excludes: excludes
+    )
+
+    // sources
+    sourceDirectories = files([
+            android.sourceSets.main.java.srcDirs,
+            "src/main/kotlin"
+    ])
+
+    executionData = files("$buildDir/jacoco/testDebugUnitTest.exec")
+}
+
+android {
+    compileSdkVersion 27
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+    }
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.github.kotlin-graphics:kotlin-unsigned:v2.1'
+
+    // Required -- JUnit 4 framework
+    testImplementation 'junit:junit:4.12'
+    // Optional -- Mockito framework
+    testImplementation 'org.mockito:mockito-core:2.15.0'
+    testImplementation 'com.android.support:appcompat-v7:27.1.1'
+    testImplementation "com.nhaarman:mockito-kotlin:1.5.0"
+    testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    testImplementation 'com.github.kotlin-graphics:kotlin-unsigned:v2.1'
+
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
