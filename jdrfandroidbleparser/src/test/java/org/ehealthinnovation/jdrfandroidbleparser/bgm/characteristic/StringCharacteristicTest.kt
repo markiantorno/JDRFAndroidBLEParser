@@ -6,6 +6,7 @@ import com.nhaarman.mockito_kotlin.mock
 import org.ehealthinnovation.jdrfandroidbleparser.BaseTest
 import org.junit.Assert
 import org.junit.Test
+import kotlin.jvm.java
 
 class StringCharacteristicTest : BaseTest() {
 
@@ -48,7 +49,7 @@ class StringCharacteristicTest : BaseTest() {
     fun parseValidCharacteristic() {
         val mockCharacteristic = mock<BluetoothGattCharacteristic> {
             on { getStringValue(0) } doReturn valueString
-            on { value } doReturn valueBytes
+            on { getValue() } doReturn valueBytes
         }
         val stringCharacteristic = StringCharacteristic(mockCharacteristic, gattIdentifier)
 

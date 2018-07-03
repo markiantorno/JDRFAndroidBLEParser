@@ -2,6 +2,7 @@ package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.GattCharacteristic.*
+import kotlin.jvm.java
 
 /**
  * The value of this characteristic is a UTF-8 string representing the firmware revision for the

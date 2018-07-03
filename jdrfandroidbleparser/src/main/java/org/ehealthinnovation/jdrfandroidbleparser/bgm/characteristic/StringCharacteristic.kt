@@ -2,6 +2,7 @@ package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
+import kotlin.jvm.java
 
 /**
  * Many base Bluetooth Characteristics only have one [String] value associated with them. These

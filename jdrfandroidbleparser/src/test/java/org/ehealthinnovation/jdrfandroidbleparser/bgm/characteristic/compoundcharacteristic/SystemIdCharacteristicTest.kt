@@ -8,6 +8,7 @@ import com.nhaarman.mockito_kotlin.mock
 import org.ehealthinnovation.jdrfandroidbleparser.BaseTest
 import org.junit.Assert
 import org.junit.Test
+import kotlin.jvm.java
 
 /**
  * Created by miantorno on 2018-06-26.

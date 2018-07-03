@@ -1,6 +1,7 @@
 package org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmcontext
 
 import java.util.*
+import kotlin.jvm.java
 
 /**
  * These flags define which data fields are present in the Characteristic value.

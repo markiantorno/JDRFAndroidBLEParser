@@ -12,6 +12,7 @@ import org.junit.runner.Description
 import org.mockito.Mockito
 import java.lang.UnsupportedOperationException
 import java.util.*
+import kotlin.jvm.java
 
 open class BaseTest {
 
@@ -19,10 +20,6 @@ open class BaseTest {
 
     private fun ByteArray?.toHex() = this?.joinToString(separator = "") {
         it.toInt().and(0xff).toString(16).padStart(2, '0')
-    }
-
-    fun getUnsignedInt(x: Int): Int {
-        return x and 0xffffffff.toInt()
     }
 
     protected fun mockBTCharacteristic(payload: ByteArray): BluetoothGattCharacteristic {
@@ -42,11 +39,11 @@ open class BaseTest {
             }
             on { getFloatValue(any(Int::class.java), any(Int::class.java)) } doAnswer {
                 //TODO
-                throw IllegalAccessException("unimplemented")
+                throw IllegalStateException("unimplemented")
             }
             on { getStringValue(any(Int::class.java)) } doAnswer {
                 //TODO
-                throw IllegalAccessException("unimplemented")
+                throw IllegalStateException("unimplemented")
             }
         }
     }

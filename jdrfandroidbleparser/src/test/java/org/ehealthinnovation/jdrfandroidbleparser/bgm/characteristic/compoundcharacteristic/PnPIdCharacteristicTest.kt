@@ -9,6 +9,7 @@ import org.ehealthinnovation.jdrfandroidbleparser.BaseTest
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.pnpid.VendorId
 import org.junit.Assert
 import org.junit.Test
+import kotlin.jvm.java
 
 /**
  * Created by miantorno on 2018-06-26.
