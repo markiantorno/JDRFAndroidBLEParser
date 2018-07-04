@@ -30,9 +30,6 @@ artifacts {
 }
 
 // Bintray
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 bintray {
     user = project.hasProperty('bintrayUser') ?: System.getenv('BINTRAY_USER')
     key = project.hasProperty('bintrayApiKey') ?: System.getenv('BINTRAY_KEY')
@@ -51,7 +48,7 @@ bintray {
             desc = libraryDescription
             gpg {
                 sign = true //Determines whether to GPG sign the files. The default is false
-                passphrase = properties.getProperty("bintray.gpg.password")
+                passphrase = System.getenv('GPG_PASSWORD')
                 //Optional. The passphrase for GPG signing'
             }
         }
