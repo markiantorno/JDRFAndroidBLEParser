@@ -3,7 +3,7 @@ package org.ehealthinnovation.jdrfandroidbleparser
 import android.bluetooth.BluetoothGattCharacteristic
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.FormatType
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.FormatType
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test

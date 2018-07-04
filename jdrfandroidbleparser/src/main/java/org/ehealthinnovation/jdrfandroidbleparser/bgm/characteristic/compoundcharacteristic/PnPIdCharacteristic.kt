@@ -3,9 +3,9 @@ package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.compoundch
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.BaseCharacteristic
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.GattCharacteristic
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.pnpid.VendorId
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.pnpid.VendorId.Companion.fromVendorId
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.dis.pnpid.VendorId
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.dis.pnpid.VendorId.Companion.fromVendorId
 import kotlin.jvm.java
 
 /**

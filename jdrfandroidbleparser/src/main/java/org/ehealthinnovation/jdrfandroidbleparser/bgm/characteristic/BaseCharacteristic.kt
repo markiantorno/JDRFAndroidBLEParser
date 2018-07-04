@@ -2,7 +2,7 @@ package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.FormatType
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.FormatType
 import kotlin.jvm.Throws
 import kotlin.jvm.java
 

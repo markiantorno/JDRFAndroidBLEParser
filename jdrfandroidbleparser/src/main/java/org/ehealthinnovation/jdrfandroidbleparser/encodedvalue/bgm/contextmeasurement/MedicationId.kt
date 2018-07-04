@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmcontext
+package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.contextmeasurement
 
 enum class MedicationId constructor(val key: Int) {
 

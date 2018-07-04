@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue
+package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue
 
 enum class FormatType constructor(val formatType: Int, val signed: Boolean) {
 

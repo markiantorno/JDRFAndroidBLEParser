@@ -6,7 +6,7 @@ import android.bluetooth.BluetoothGattCharacteristic.FORMAT_UINT16
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import org.ehealthinnovation.jdrfandroidbleparser.BaseTest
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.pnpid.VendorId
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.dis.pnpid.VendorId
 import org.junit.Assert
 import org.junit.Test
 import kotlin.jvm.java
