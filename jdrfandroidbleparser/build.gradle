@@ -2,9 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-apply from: 'publish.gradle'
-apply from: 'coverage.gradle'
-
 android {
     compileSdkVersion 27
 
@@ -12,7 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -57,3 +54,31 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+ext {
+    bintrayRepo = "jdrfandroidbleparser"
+    bintrayName = "org.ehealthinnovation.jdrfandroidbleparser"
+
+    publishedGroupId = 'org.ehealthinnovation.jdrfandroidbleparser'
+    libraryName = 'jdrfandroidbleparser'
+    artifact = 'jdrfandroidbleparser'
+
+    libraryDescription = 'Android JDRF BLE Parser'
+
+    siteUrl = 'https://github.com/markiantorno/JDRFAndroidBLEParser.git'
+    gitUrl = 'https://github.com/markiantorno/JDRFAndroidBLEParser.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'markiantorno'
+    developerName = 'Mark Iantorno'
+    developerEmail = 'markiantorno@gmail.com'
+
+    licenseName = 'The MIT License'
+    licenseUrl = 'https://opensource.org/licenses/mit-license.php'
+    allLicenses = ["MIT"]
+}
+
+apply from: 'install.gradle'
+apply from: 'bintray.gradle'
+apply from: 'coverage.gradle'
