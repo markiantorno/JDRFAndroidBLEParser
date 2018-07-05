@@ -34,7 +34,7 @@ class SystemIdCharacteristicTest : BaseTest() {
      * 0x123456 and the Company Assigned Identifier is 0x9ABCDE, then the System Identifier is
      * required to be 0x123456FFFE9ABCDE.
      */
-    private val payload = byteArrayOf(0xde.toByte(), 0xbc.toByte(), 0x9a.toByte(),
+    private val systemCharacteristicPayload = byteArrayOf(0xde.toByte(), 0xbc.toByte(), 0x9a.toByte(),
             0xfe.toByte(), 0xff.toByte(), 0x56.toByte(), 0x34.toByte(), 0x12.toByte())
 
     @Test
@@ -104,7 +104,7 @@ class SystemIdCharacteristicTest : BaseTest() {
 
     @Test
     fun getManufacturerIdentifier() {
-        var validSystemIdCharacteristic = SystemIdCharacteristic(mockBTCharacteristic(payload))
+        var validSystemIdCharacteristic = SystemIdCharacteristic(mockBTCharacteristic(systemCharacteristicPayload))
         Assert.assertEquals(mockManufacturerID, validSystemIdCharacteristic.manufacturerIdentifier)
 
         validSystemIdCharacteristic.manufacturerIdentifier = mockManufacturerID + 1
@@ -113,7 +113,7 @@ class SystemIdCharacteristicTest : BaseTest() {
 
     @Test
     fun getOui() {
-        var validSystemIdCharacteristic = SystemIdCharacteristic(mockBTCharacteristic(payload))
+        var validSystemIdCharacteristic = SystemIdCharacteristic(mockBTCharacteristic(systemCharacteristicPayload))
         Assert.assertEquals(mockOui, validSystemIdCharacteristic.oui)
 
         validSystemIdCharacteristic.oui = mockOui + 1
@@ -122,7 +122,7 @@ class SystemIdCharacteristicTest : BaseTest() {
 
     @Test
     fun testSuccessfulParse() {
-        var validSystemIdCharacteristic = SystemIdCharacteristic(mockBTCharacteristic(payload))
+        var validSystemIdCharacteristic = SystemIdCharacteristic(mockBTCharacteristic(systemCharacteristicPayload))
         Assert.assertTrue(validSystemIdCharacteristic.successfulParsing)
     }
 }
