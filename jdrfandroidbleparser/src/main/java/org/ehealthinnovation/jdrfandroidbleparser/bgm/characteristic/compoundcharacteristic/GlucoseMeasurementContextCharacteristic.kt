@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.BaseCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.Units
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.contextmeasurement.*
 import java.util.*
 
@@ -25,7 +26,7 @@ class GlucoseMeasurementContextCharacteristic(characteristic: BluetoothGattChara
     // Sequence Number
     var sequenceNumber: Int? = null
     // Field exists if the key of bit 7 of the Flags field is set to 1
-    var extendFlag: Int? = null
+    var extendedFlag: Int? = null
     // Carbohydrate type, ie: Breakfast, Lunch, etc. Field exists if the key of bit 0 of the Flags field is set to 1
     var carbohydrateId: CarbohydrateId? = null
     // Carbohydrate amount in kg. Field exists if the key of bit 0 of the Flags field is set to 1
@@ -43,7 +44,7 @@ class GlucoseMeasurementContextCharacteristic(characteristic: BluetoothGattChara
     // Insulin type. Field exists if the key of bit 4 of the Flags field is set to 1
     var medicationId: MedicationId? = null
     // Unit of measured medication, either kg (mass), or L (volume)
-    var medicationUnit: Unit? = null
+    var medicationUnit: Units? = null
     // Numerical measure of medication
     var medicationAmount: Float? = null
     // As percentage. Field exists if the key of bit 6 of the Flags field is set to 1
@@ -52,9 +53,33 @@ class GlucoseMeasurementContextCharacteristic(characteristic: BluetoothGattChara
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
         var errorFreeParse = false
         try {
-            flags = Flags.parseFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
-
-            errorFreeParse = true
+            Flags.parseFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)).let {
+                sequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+                when {
+                    it.contains(Flags.EXTENDED_FLAGS_PRESENT) -> extendedFlag = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+                    it.contains(Flags.CARBOHYDRATE_ID_AND_CARBOHYDRATE_PRESENT) -> {
+                        carbohydrateId = CarbohydrateId.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+                        carbohydrate = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
+                    }
+                    it.contains(Flags.MEAL_PRESENT) -> meal = Meal.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+                    it.contains(Flags.TESTER_HEALTH_PRESENT) -> getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8).let {
+                        tester = Tester.fromKey(it and 0x0F)
+                        health = Health.fromKey((it and 0xF0) shr 4)
+                    }
+                    it.contains(Flags.EXERCISE_DURATION_AND_EXERCISE_INTENSITY_PRESENT) -> {
+                        exerciseDuration = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+                        exerciseIntensity = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8) / 100f
+                    }
+                    it.contains(Flags.MEDICATION_ID_AND_MEDICATION_PRESENT) -> {
+                        medicationId = MedicationId.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+                        medicationAmount = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
+                    }
+                    it.contains(Flags.MEDICATION_VALUE_UNITS) -> medicationUnit = Units.LITRE
+                    !it.contains(Flags.MEDICATION_VALUE_UNITS) -> medicationUnit = Units.KILOGRAM
+                    it.contains(Flags.HBA1C_PRESENT) -> HbA1c = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
+                }
+                errorFreeParse = true
+            }
         } catch (e: NullPointerException) {
             Log.e(tag, nullValueException)
         }
