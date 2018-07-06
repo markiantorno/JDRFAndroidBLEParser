@@ -43,10 +43,17 @@ enum class FormatType constructor(val formatType: Int, val signed: Boolean) {
     FORMAT_FLOAT(0x34, true);
 
     /**
-     * Returns the size of a give value type.
+     * Returns the size of a give value type in bytes.
      */
     fun length(): Int {
         return formatType and 0xF
+    }
+
+    /**
+     * Returns the size of a give value type in bits.
+     */
+    fun bits(): Int {
+        return (formatType and 0xF) * 8
     }
 
     companion object {

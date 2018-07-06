@@ -27,7 +27,7 @@ class PnPIdCharacteristicTest : BaseTest() {
     private val mockProdVersionInt: Int = 31
     private val nullVal: Int? = null
 
-    private val payload = byteArrayOf(0x01.toByte(), 0x6a.toByte(), 0x16.toByte(),
+    private val pnpIdPayload = byteArrayOf(0x01.toByte(), 0x6a.toByte(), 0x16.toByte(),
             0x1b.toByte(), 0x09.toByte(), 0x1f.toByte(), 0x00.toByte())
 
     @Test
@@ -87,13 +87,13 @@ class PnPIdCharacteristicTest : BaseTest() {
 
     @Test
     fun testSuccessfulParse() {
-        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(payload))
+        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(pnpIdPayload))
         Assert.assertTrue(validPnPIdCharacteristic.successfulParsing)
     }
 
     @Test
     fun testVendorIdSource() {
-        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(payload))
+        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(pnpIdPayload))
         Assert.assertEquals(mockVendorIdSource, validPnPIdCharacteristic.vendorIdSource)
 
         validPnPIdCharacteristic.vendorIdSource = VendorId.DIS_VENDOR_ID_SOURCE_USB_FORUM
@@ -102,7 +102,7 @@ class PnPIdCharacteristicTest : BaseTest() {
 
     @Test
     fun testVendorId() {
-        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(payload))
+        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(pnpIdPayload))
         Assert.assertEquals(mockVendorIdInt, validPnPIdCharacteristic.vendorId)
 
         validPnPIdCharacteristic.vendorId = mockVendorIdInt + 1
@@ -111,7 +111,7 @@ class PnPIdCharacteristicTest : BaseTest() {
 
     @Test
     fun testProductId() {
-        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(payload))
+        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(pnpIdPayload))
         Assert.assertEquals(mockProductIdInt, validPnPIdCharacteristic.productId)
 
         validPnPIdCharacteristic.productId = mockProductIdInt + 1
@@ -120,7 +120,7 @@ class PnPIdCharacteristicTest : BaseTest() {
 
     @Test
     fun testProductVersion() {
-        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(payload))
+        val validPnPIdCharacteristic = PnPIdCharacteristic(mockBTCharacteristic(pnpIdPayload))
         Assert.assertEquals(mockProdVersionInt, validPnPIdCharacteristic.productVersion)
 
         validPnPIdCharacteristic.productVersion = mockProdVersionInt + 1
