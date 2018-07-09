@@ -54,40 +54,36 @@ class GlucoseMeasurementCharacteristic(characteristic: BluetoothGattCharacterist
      */
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
         var errorFreeParse = false
-        try {
-            //make sure c is not null
-            Flags.parsFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)).let {
-                flags = it
-                sequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
-                timeYear = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
-                timeMonth = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
-                timeDay = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
-                timeHour = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
-                timeMinute = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
-                timeSecond = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+        //make sure c is not null
+        Flags.parsFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)).let {
+            flags = it
+            sequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+            timeYear = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+            timeMonth = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+            timeDay = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+            timeHour = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+            timeMinute = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+            timeSecond = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
 
-                if (it.contains(Flags.TIME_OFFSET_PRESENT))
-                    timeOffset = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
-                if (it.contains(Flags.CONCENTRATION_PRESENT)) {
-                    concentration = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
-                    val tempIntHolder = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
-                    fluidType = Type.fromKey(tempIntHolder and 0x0F)
-                    sampleLocation = SampleLocation.fromKey((tempIntHolder and 0xF0) shr 4)
-                    if (it.contains(Flags.CONCENTRATION_UNIT))
-                        unit = Units.MOLE_PER_LITRE
-                    else
-                        unit = Units.KILOGRAM_PER_LITRE
-                }
-                if (it.contains(Flags.STATUS_ANNUNCIATION_PRESENT))
-                    annunciationFlags = SensorStatusAnnunciation.parseFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16))
+            if (it.contains(Flags.TIME_OFFSET_PRESENT))
+                timeOffset = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+            if (it.contains(Flags.CONCENTRATION_PRESENT)) {
+                concentration = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
+                val tempIntHolder = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+                fluidType = Type.fromKey(tempIntHolder and 0x0F)
+                sampleLocation = SampleLocation.fromKey((tempIntHolder and 0xF0) shr 4)
+                if (it.contains(Flags.CONCENTRATION_UNIT))
+                    unit = Units.MOLE_PER_LITRE
+                else
+                    unit = Units.KILOGRAM_PER_LITRE
             }
-
-            //format the date, time, offset into java type
-            displayTime = BluetoothDateTime.getDate(timeYear, timeMonth, timeDay, timeHour, timeMinute, timeSecond, timeOffset)
+            if (it.contains(Flags.STATUS_ANNUNCIATION_PRESENT))
+                annunciationFlags = SensorStatusAnnunciation.parseFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16))
             errorFreeParse = true
-        } catch (e: NullPointerException) {
-            Log.e(tag, nullValueException)
         }
+
+        //format the date, time, offset into java type
+        displayTime = BluetoothDateTime.getDate(timeYear, timeMonth, timeDay, timeHour, timeMinute, timeSecond, timeOffset)
         return errorFreeParse
     }
 
