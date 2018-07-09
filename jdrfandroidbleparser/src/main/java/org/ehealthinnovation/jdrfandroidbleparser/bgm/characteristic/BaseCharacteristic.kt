@@ -2,7 +2,7 @@ package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
-import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.FormatType
+import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.FormatType
 import kotlin.jvm.Throws
 import kotlin.jvm.java
 
@@ -25,26 +25,8 @@ abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, 
      */
     init {
         characteristic?.let {
-            this.successfulParsing = tryParse(it)
+            this.successfulParsing = parse(it)
         }
-    }
-
-    /**
-     * Swallowing the exception is one of two viable options, some users might want any error to
-     * bubble up all the way immediately.
-     *
-     * https://github.com/markiantorno/JDRFAndroidBLEParser/issues/1
-     */
-    protected fun tryParse(c: BluetoothGattCharacteristic): Boolean {
-        var errorFreeParse = false
-        try {
-            errorFreeParse = parse(c)
-        } catch (e: NullPointerException) {
-            Log.e(tag, nullValueException)
-        } catch (e: Exception) {
-            Log.e(tag, e.message)
-        }
-        return errorFreeParse
     }
 
     /**
@@ -75,8 +57,7 @@ abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, 
             c.getStringValue(offset)?.let {
                 offset += it.toByteArray().size
                 return it
-            }
-                    ?: throw NullPointerException("Offset \"$offset\" does not relate to valid String value...")
+            } ?: throw NullPointerException("Offset \"$offset\" does not relate to valid String value...")
 
     /**
      * Returns the stored [Int] value of this characteristic.

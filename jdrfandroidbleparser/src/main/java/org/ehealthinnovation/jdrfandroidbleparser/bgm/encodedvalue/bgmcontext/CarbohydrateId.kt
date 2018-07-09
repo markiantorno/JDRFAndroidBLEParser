@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.contextmeasurement
+package org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmcontext
 
 enum class CarbohydrateId constructor(val key: Int) {
 
