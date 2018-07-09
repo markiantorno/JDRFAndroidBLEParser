@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue
+package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue
 
 enum class Units constructor(identifier: String, assigned: Int) {
     UNITLESS("org.bluetooth.unit.unitless", 0x2700),

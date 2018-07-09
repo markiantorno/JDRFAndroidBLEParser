@@ -3,9 +3,9 @@ package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.compoundch
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.BaseCharacteristic
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.GattCharacteristic
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.pnpid.VendorId
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.pnpid.VendorId.Companion.fromVendorId
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.dis.pnpid.VendorId
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.dis.pnpid.VendorId.Companion.fromVendorId
 import kotlin.jvm.java
 
 /**
@@ -30,16 +30,10 @@ class PnPIdCharacteristic(characteristic: BluetoothGattCharacteristic?) :
     var productVersion: Int? = null
 
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
-        var errorFreeParse = false
-        try {
-            vendorIdSource = fromVendorId(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
-            vendorId = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
-            productId = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
-            productVersion = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
-            errorFreeParse = true
-        } catch (e: NullPointerException) {
-            Log.e(tag, nullValueException)
-        }
-        return errorFreeParse
+        vendorIdSource = fromVendorId(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+        vendorId = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+        productId = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+        productVersion = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+        return true
     }
 }
