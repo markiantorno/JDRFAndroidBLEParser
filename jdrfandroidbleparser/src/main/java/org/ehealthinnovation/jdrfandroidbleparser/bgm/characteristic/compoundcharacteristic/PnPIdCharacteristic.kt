@@ -30,16 +30,10 @@ class PnPIdCharacteristic(characteristic: BluetoothGattCharacteristic?) :
     var productVersion: Int? = null
 
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
-        var errorFreeParse = false
-        try {
-            vendorIdSource = fromVendorId(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
-            vendorId = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
-            productId = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
-            productVersion = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
-            errorFreeParse = true
-        } catch (e: NullPointerException) {
-            Log.e(tag, nullValueException)
-        }
-        return errorFreeParse
+        vendorIdSource = fromVendorId(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+        vendorId = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+        productId = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+        productVersion = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+        return true
     }
 }

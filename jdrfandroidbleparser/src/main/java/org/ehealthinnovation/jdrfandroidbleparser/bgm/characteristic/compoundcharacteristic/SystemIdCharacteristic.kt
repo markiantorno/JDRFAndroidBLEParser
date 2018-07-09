@@ -34,17 +34,11 @@ class SystemIdCharacteristic(characteristic: BluetoothGattCharacteristic?) :
     var oui: Long? = null
 
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
-        var errorFreeParse = false
-        try {
-            manufacturerIdentifier = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16).toLong() +
-                    (getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16).toLong() shl 16) +
-                    (getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8).toLong() shl 32)
-            oui = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16).toLong() +
-                    (getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8).toLong() shl 16)
-            errorFreeParse = true
-        } catch (e: NullPointerException) {
-            Log.e(tag, nullValueException)
-        }
-        return errorFreeParse
+        manufacturerIdentifier = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16).toLong() +
+                (getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16).toLong() shl 16) +
+                (getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8).toLong() shl 32)
+        oui = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16).toLong() +
+                (getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8).toLong() shl 16)
+        return true
     }
 }

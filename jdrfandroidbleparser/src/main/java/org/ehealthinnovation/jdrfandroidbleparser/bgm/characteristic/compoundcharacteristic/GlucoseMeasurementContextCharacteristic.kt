@@ -21,8 +21,8 @@ import java.util.*
 class GlucoseMeasurementContextCharacteristic(characteristic: BluetoothGattCharacteristic?) :
         BaseCharacteristic(characteristic, GattCharacteristic.GLUCOSE_MEASUREMENT_CONTEXT.assigned) {
 
-    // These flags define which data fields are present in the Characteristic value
-    var flags: EnumSet<Flags>? = null
+    override val tag = GlucoseMeasurementContextCharacteristic::class.java.canonicalName as String
+
     // Sequence Number
     var sequenceNumber: Int? = null
     // Field exists if the key of bit 7 of the Flags field is set to 1
@@ -52,36 +52,34 @@ class GlucoseMeasurementContextCharacteristic(characteristic: BluetoothGattChara
 
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
         var errorFreeParse = false
-        try {
-            Flags.parseFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)).let {
-                sequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
-                when {
-                    it.contains(Flags.EXTENDED_FLAGS_PRESENT) -> extendedFlag = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
-                    it.contains(Flags.CARBOHYDRATE_ID_AND_CARBOHYDRATE_PRESENT) -> {
-                        carbohydrateId = CarbohydrateId.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
-                        carbohydrate = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
-                    }
-                    it.contains(Flags.MEAL_PRESENT) -> meal = Meal.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
-                    it.contains(Flags.TESTER_HEALTH_PRESENT) -> getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8).let {
-                        tester = Tester.fromKey(it and 0x0F)
-                        health = Health.fromKey((it and 0xF0) shr 4)
-                    }
-                    it.contains(Flags.EXERCISE_DURATION_AND_EXERCISE_INTENSITY_PRESENT) -> {
-                        exerciseDuration = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
-                        exerciseIntensity = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8) / 100f
-                    }
-                    it.contains(Flags.MEDICATION_ID_AND_MEDICATION_PRESENT) -> {
-                        medicationId = MedicationId.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
-                        medicationAmount = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
-                    }
-                    it.contains(Flags.MEDICATION_VALUE_UNITS) -> medicationUnit = Units.LITRE
-                    !it.contains(Flags.MEDICATION_VALUE_UNITS) -> medicationUnit = Units.KILOGRAM
-                    it.contains(Flags.HBA1C_PRESENT) -> HbA1c = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
-                }
-                errorFreeParse = true
+        // These flags define which data fields are present in the Characteristic value
+        Flags.parseFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)).let {
+            sequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+            if (it.contains(Flags.EXTENDED_FLAGS_PRESENT)) extendedFlag = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+
+            if (it.contains(Flags.CARBOHYDRATE_ID_AND_CARBOHYDRATE_PRESENT)) {
+                carbohydrateId = CarbohydrateId.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+                carbohydrate = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
             }
-        } catch (e: NullPointerException) {
-            Log.e(tag, nullValueException)
+            if (it.contains(Flags.MEAL_PRESENT)) meal = Meal.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+            if (it.contains(Flags.TESTER_HEALTH_PRESENT)) getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8).let {
+                tester = Tester.fromKey(it and 0x0F)
+                health = Health.fromKey((it and 0xF0) shr 4)
+            }
+            if (it.contains(Flags.EXERCISE_DURATION_AND_EXERCISE_INTENSITY_PRESENT)) {
+                exerciseDuration = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+                exerciseIntensity = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8) / 100f
+            }
+            if (it.contains(Flags.MEDICATION_ID_AND_MEDICATION_PRESENT)) {
+                medicationId = MedicationId.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+                medicationAmount = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
+            }
+            medicationUnit = when {
+                it.contains(Flags.MEDICATION_VALUE_UNITS) -> Units.LITRE
+                else -> Units.KILOGRAM
+            }
+            if (it.contains(Flags.HBA1C_PRESENT)) HbA1c = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
+            errorFreeParse = true
         }
         return errorFreeParse
     }

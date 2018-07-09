@@ -25,8 +25,26 @@ abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, 
      */
     init {
         characteristic?.let {
-            this.successfulParsing = parse(it)
+            this.successfulParsing = tryParse(it)
         }
+    }
+
+    /**
+     * Swallowing the exception is one of two viable options, some users might want any error to
+     * bubble up all the way immediately.
+     *
+     * https://github.com/markiantorno/JDRFAndroidBLEParser/issues/1
+     */
+    protected fun tryParse(c: BluetoothGattCharacteristic): Boolean {
+        var errorFreeParse = false
+        try {
+            errorFreeParse = parse(c)
+        } catch (e: NullPointerException) {
+            Log.e(tag, nullValueException)
+        } catch (e: Exception) {
+            Log.e(tag, e.message)
+        }
+        return errorFreeParse
     }
 
     /**
@@ -57,7 +75,8 @@ abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, 
             c.getStringValue(offset)?.let {
                 offset += it.toByteArray().size
                 return it
-            } ?: throw NullPointerException("Offset \"$offset\" does not relate to valid String value...")
+            }
+                    ?: throw NullPointerException("Offset \"$offset\" does not relate to valid String value...")
 
     /**
      * Returns the stored [Int] value of this characteristic.
