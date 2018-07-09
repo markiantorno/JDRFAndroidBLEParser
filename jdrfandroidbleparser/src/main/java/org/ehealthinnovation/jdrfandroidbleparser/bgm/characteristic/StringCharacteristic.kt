@@ -16,11 +16,7 @@ open class StringCharacteristic(characteristic: BluetoothGattCharacteristic?, uu
     var valueString: String? = null
 
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
-        try {
-            valueString = getNextStringValue(c)
-        } catch (e: NullPointerException) {
-            Log.e(tag, e.message)
-        }
+        valueString = getNextStringValue(c)
         return valueString != null
     }
 }

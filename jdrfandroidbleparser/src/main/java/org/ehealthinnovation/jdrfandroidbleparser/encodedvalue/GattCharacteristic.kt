@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue
+package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue
 
 /**
  * Characteristics are defined attribute types that contain a single logical value. All Assigned

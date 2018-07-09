@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.pnpid
+package org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.dis.pnpid
 
 /**
  * The PnP_ID characteristic returns its value when read using the GATT Characteristic Value Read procedure.
