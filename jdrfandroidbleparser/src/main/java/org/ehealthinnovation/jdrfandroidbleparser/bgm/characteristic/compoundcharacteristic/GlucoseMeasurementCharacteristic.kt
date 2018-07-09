@@ -3,14 +3,13 @@ package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.compoundch
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.BaseCharacteristic
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.FormatType
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.GattCharacteristic
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.Units
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.Flags
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.SampleLocation
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.SensorStatusAnnunciation
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.Type
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.utility.BluetoothDateTime
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.Units
 import java.util.*
 
 class GlucoseMeasurementCharacteristic(characteristic: BluetoothGattCharacteristic?) : BaseCharacteristic(characteristic, GattCharacteristic.GLUCOSE_MEASUREMENT.assigned) {
@@ -57,21 +56,21 @@ class GlucoseMeasurementCharacteristic(characteristic: BluetoothGattCharacterist
         var errorFreeParse = false
         try {
             //make sure c is not null
-            Flags.parsFlags(getNextIntValue(c, FormatType.FORMAT_UINT8.formatType)).let {
+            Flags.parsFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)).let {
                 flags = it
-                sequenceNumber = getNextIntValue(c, FormatType.FORMAT_UINT16.formatType)
-                timeYear = getNextIntValue(c, FormatType.FORMAT_UINT16.formatType)
-                timeMonth = getNextIntValue(c, FormatType.FORMAT_UINT8.formatType)
-                timeDay = getNextIntValue(c, FormatType.FORMAT_UINT8.formatType)
-                timeHour = getNextIntValue(c, FormatType.FORMAT_UINT8.formatType)
-                timeMinute = getNextIntValue(c, FormatType.FORMAT_UINT8.formatType)
-                timeSecond = getNextIntValue(c, FormatType.FORMAT_UINT8.formatType)
+                sequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+                timeYear = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
+                timeMonth = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+                timeDay = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+                timeHour = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+                timeMinute = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+                timeSecond = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
 
                 if (it.contains(Flags.TIME_OFFSET_PRESENT))
-                    timeOffset = getNextIntValue(c, FormatType.FORMAT_UINT16.formatType)
+                    timeOffset = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
                 if (it.contains(Flags.CONCENTRATION_PRESENT)) {
-                    concentration = getNextFloatValue(c, FormatType.FORMAT_SFLOAT.formatType)
-                    val tempIntHolder = getNextIntValue(c, FormatType.FORMAT_UINT8.formatType)
+                    concentration = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
+                    val tempIntHolder = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
                     fluidType = Type.fromKey(tempIntHolder and 0x0F)
                     sampleLocation = SampleLocation.fromKey((tempIntHolder and 0xF0) shr 4)
                     if (it.contains(Flags.CONCENTRATION_UNIT))
@@ -80,7 +79,7 @@ class GlucoseMeasurementCharacteristic(characteristic: BluetoothGattCharacterist
                         unit = Units.KILOGRAM_PER_LITRE
                 }
                 if (it.contains(Flags.STATUS_ANNUNCIATION_PRESENT))
-                    annunciationFlags = SensorStatusAnnunciation.parseFlags(getNextIntValue(c, FormatType.FORMAT_UINT16.formatType))
+                    annunciationFlags = SensorStatusAnnunciation.parseFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16))
             }
 
             //format the date, time, offset into java type
