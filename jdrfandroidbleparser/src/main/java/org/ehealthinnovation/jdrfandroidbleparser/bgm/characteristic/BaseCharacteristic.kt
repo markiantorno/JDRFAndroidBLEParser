@@ -51,6 +51,9 @@ abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, 
      * Each characteristic has it's own set of values which could be of differing types, so we leave
      * implementation of the parsing to the individual characteristic implementation.
      *
+     * Order matters for parsing as values are stored in the array, and are pulling out using a
+     * store offset variable, see [getNextOffset].
+     *
      * @param c The [BluetoothGattCharacteristic] to parse.
      */
     protected abstract fun parse(c: BluetoothGattCharacteristic): Boolean
@@ -75,8 +78,7 @@ abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, 
             c.getStringValue(offset)?.let {
                 offset += it.toByteArray().size
                 return it
-            }
-                    ?: throw NullPointerException("Offset \"$offset\" does not relate to valid String value...")
+            } ?: throw NullPointerException("Offset \"$offset\" does not relate to valid String value...")
 
     /**
      * Returns the stored [Int] value of this characteristic.

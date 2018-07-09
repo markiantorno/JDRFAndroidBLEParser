@@ -6,6 +6,7 @@ import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.BaseCharact
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.dis.pnpid.VendorId
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.dis.pnpid.VendorId.Companion.fromVendorId
+import java.util.*
 import kotlin.jvm.java
 
 /**
@@ -36,4 +37,7 @@ class PnPIdCharacteristic(characteristic: BluetoothGattCharacteristic?) :
         productVersion = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
         return true
     }
+
+
 }
+
