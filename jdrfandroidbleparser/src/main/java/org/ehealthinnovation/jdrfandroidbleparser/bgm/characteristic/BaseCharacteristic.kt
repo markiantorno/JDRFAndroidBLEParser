@@ -2,7 +2,7 @@ package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.FormatType
+import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.FormatType
 import kotlin.jvm.Throws
 import kotlin.jvm.java
 
@@ -25,13 +25,34 @@ abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, 
      */
     init {
         characteristic?.let {
-            this.successfulParsing = parse(it)
+            this.successfulParsing = tryParse(it)
         }
+    }
+
+    /**
+     * Swallowing the exception is one of two viable options, some users might want any error to
+     * bubble up all the way immediately.
+     *
+     * https://github.com/markiantorno/JDRFAndroidBLEParser/issues/1
+     */
+    protected fun tryParse(c: BluetoothGattCharacteristic): Boolean {
+        var errorFreeParse = false
+        try {
+            errorFreeParse = parse(c)
+        } catch (e: NullPointerException) {
+            Log.e(tag, nullValueException)
+        } catch (e: Exception) {
+            Log.e(tag, e.message)
+        }
+        return errorFreeParse
     }
 
     /**
      * Each characteristic has it's own set of values which could be of differing types, so we leave
      * implementation of the parsing to the individual characteristic implementation.
+     *
+     * Order matters for parsing as values are stored in the array, and are pulling out using a
+     * store offset variable, see [getNextOffset].
      *
      * @param c The [BluetoothGattCharacteristic] to parse.
      */
