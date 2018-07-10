@@ -3,14 +3,14 @@ package org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasureme
 enum class Type constructor(val key: Int) {
 
     RESERVED_FOR_FUTURE_USE(0),
-    WHOLE_BLOOD_CAPILLARY(1),
-    PLASMA_CAPILLARY(2),
-    WHOLE_BLOOD_VENOUS(3),
-    PLASMA_VENOUS(4),
-    WHOLE_BLOOD_ARTERIAL(5),
-    PLASMA_ARTERIAL(6),
-    WHOLE_BLOOD_UNDETERMINED(7),
-    PLASMA_UNDETERMINED(8),
+    CAPILLARY_WHOLE_BLOOD(1),
+    CAPILLARY_PLASMA(2),
+    VENOUS_WHOLE_BLOOD(3),
+    VENOUS_PLASMA(4),
+    ARTERIAL_WHOLE_BLOOD(5),
+    ARTERIAL_PLASMA(6),
+    UNDETERMINED_WHOLE_BLOOD(7),
+    UNDETERMINED_PLASMA(8),
     ISF(9),
     CONTROL_SOLUTION(10);
 

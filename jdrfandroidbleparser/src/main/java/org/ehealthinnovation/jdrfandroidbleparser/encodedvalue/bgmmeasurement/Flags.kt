@@ -9,10 +9,10 @@ import java.util.*
 enum class Flags constructor(val bit: Int) {
 
     TIME_OFFSET_PRESENT(1 shl 0),
-    CONCENTRATION_PRESENT(1 shl 1),
-    CONCENTRATION_UNIT(1 shl 2),
-    STATUS_ANNUNCIATION_PRESENT(1 shl 3),
-    CONTEXT_PRESENT(1 shl 4);
+    GLUCOSE_CONCENTRATION_TYPE_SAMPLE_LOCATION_PRESENT(1 shl 1),
+    GLUCOSE_CONCENTRATION_UNITS(1 shl 2),
+    SENSOR_STATUS_ANNUNCIATION_PRESENT(1 shl 3),
+    CONTEXT_INFORMATION_FOLLOWS(1 shl 4);
 
     companion object {
         /**

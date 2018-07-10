@@ -1,9 +1,47 @@
 package org.ehealthinnovation.jdrfandroidbleparser.bgm.utility
 
+import java.time.Year
 import java.util.*
 
-class BluetoothDateTime {
-    companion object {
+data class BluetoothDateTime(val _year: Int = 0,
+                             val _month: Int = 0,
+                             val _day: Int = 0,
+                             val _hour: Int = 0,
+                             val _min: Int = 0,
+                             val _sec: Int = 0,
+                             val _offset: Int = 0) {
+    var year: Int
+    var month: Int
+    var day: Int
+    var hour: Int
+    var min: Int
+    var sec: Int
+    var offset: Int
+
+    lateinit var date: Date
+
+    init {
+        year = _year
+        month = _month
+        day = _day
+        hour = _hour
+        min = _min
+        sec = _sec
+        offset = _offset
+    }
+
+    fun convertToDate(): Date?{
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.MILLISECOND, 0)
+        if(year==0 || month==0 || day==0 )
+            return null
+
+        calendar.set(year, month-1, day, hour, min, sec)
+        offset?.let { calendar.add(Calendar.MINUTE, it)}
+        return calendar.time
+    }
+
+
         /**
          * Convert bluetooth date time fields into Java Date format. It takes care of the offset addition.
          * @param y Year in bluetooth definition
@@ -30,5 +68,5 @@ class BluetoothDateTime {
             offset?.let { calendar.add(Calendar.MINUTE, it)}
             return calendar.time
         }
-    }
+
 }

@@ -8,8 +8,7 @@ enum class SampleLocation constructor(val key: Int) {
     ALTERNATIVE_SITE_TEST(2),
     EARLOBE(3),
     CONTROL_SOLUTION(4),
-    SUBCUTANEOUS_TISSUE(5),
-    NA(15);
+    SAMPLE_LOCATION_VALUE_NOT_AVAILABLE(15);
 
     companion object {
         private val map = SampleLocation.values().associateBy(SampleLocation::key)
