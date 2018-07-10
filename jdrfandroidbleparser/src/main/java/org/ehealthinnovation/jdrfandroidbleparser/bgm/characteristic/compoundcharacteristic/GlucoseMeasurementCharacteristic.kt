@@ -12,10 +12,18 @@ import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristi
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.Units
 import java.util.*
 
+/**
+ * The Glucose Measurement characteristic is a variable length structure containing a Flags field,
+ * a Sequence Number field, a Base Time field and, based upon the contents of the Flags field, may
+ * contain a Time Offset field, Glucose Concentration field, Type-Sample Location field and a Sensor
+ * Status Annunciation field.
+ * https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.glucose_measurement.xml
+ *
+ * @author harryqiu
+ */
 class GlucoseMeasurementCharacteristic(characteristic: BluetoothGattCharacteristic?) : BaseCharacteristic(characteristic, GattCharacteristic.GLUCOSE_MEASUREMENT.assigned) {
     override val tag = GlucoseMeasurementCharacteristic::class.java.canonicalName as String
 
-    var flags: EnumSet<Flags>? = null
     var sequenceNumber: Int? = null
     /**
      * The year, month, day, hour, minute, second have value according to https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.date_time.xml
@@ -52,7 +60,6 @@ class GlucoseMeasurementCharacteristic(characteristic: BluetoothGattCharacterist
         var errorFreeParse = false
         //make sure c is not null
         Flags.parsFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)).let {
-            flags = it
 
             sequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
             dateTime = BluetoothDateTime(
@@ -76,13 +83,16 @@ class GlucoseMeasurementCharacteristic(characteristic: BluetoothGattCharacterist
                 val tempIntHolder = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
                 fluidType = Type.fromKey(tempIntHolder and 0x0F)
                 sampleLocation = SampleLocation.fromKey((tempIntHolder and 0xF0) shr 4)
-                if (it.contains(Flags.GLUCOSE_CONCENTRATION_UNITS))
+                if (it.contains(Flags.GLUCOSE_CONCENTRATION_UNITS)) {
                     unit = Units.MOLE_PER_LITRE
-                else
+                }
+                else {
                     unit = Units.KILOGRAM_PER_LITRE
+                }
             }
-            if (it.contains(Flags.SENSOR_STATUS_ANNUNCIATION_PRESENT))
+            if (it.contains(Flags.SENSOR_STATUS_ANNUNCIATION_PRESENT)) {
                 annunciationFlags = SensorStatusAnnunciation.parseFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16))
+            }
             errorFreeParse = true
         }
 
