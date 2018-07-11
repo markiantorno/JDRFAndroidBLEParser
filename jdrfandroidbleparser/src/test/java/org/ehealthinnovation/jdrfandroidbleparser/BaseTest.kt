@@ -37,6 +37,9 @@ open class BaseTest {
                     FORMAT_SINT8, FORMAT_UINT8, FORMAT_SINT16, FORMAT_UINT16 -> {
                         val offset: Int = it.getArgument(1)
                         FormatType.fromType(formatType)?.let {
+                            if( payload.size <= offset+it.length()-1){
+                                throw IllegalArgumentException("Trying to access non-existing byte")
+                            }
                             val reversedArray = payload.sliceArray(offset..(offset + (it.length() - 1)))
                             if (it.signed) {
                                 unsignedToSigned(unsignedBytesToInt(reversedArray), reversedArray.size * 8)
