@@ -10,26 +10,21 @@ data class BluetoothDateTime(val _year: Int = 0,
                              val _min: Int = 0,
                              val _sec: Int = 0,
                              val _offset: Int = 0) {
-    var year: Int
-    var month: Int
-    var day: Int
-    var hour: Int
-    var min: Int
-    var sec: Int
-    var offset: Int
+    var year = _year
+    var month = _month
+    var day = _day
+    var hour = _hour
+    var min = _min
+    var sec = _sec
+    var offset = _offset
 
     lateinit var date: Date
 
-    init {
-        year = _year
-        month = _month
-        day = _day
-        hour = _hour
-        min = _min
-        sec = _sec
-        offset = _offset
-    }
-
+    /**
+     * Convert a Bluetooth Base offset time format to user facing time.
+     * @return the exact time by combining the base time with the offset. null is return when one of
+     * the base time fields is unknown.
+     */
     fun convertToDate(): Date?{
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.MILLISECOND, 0)
@@ -40,33 +35,5 @@ data class BluetoothDateTime(val _year: Int = 0,
         offset?.let { calendar.add(Calendar.MINUTE, it)}
         return calendar.time
     }
-
-
-        /**
-         * Convert bluetooth date time fields into Java Date format. It takes care of the offset addition.
-         * @param y Year in bluetooth definition
-         * @param m Month in bluetooth definition
-         * @param d Day in bluetooth definition
-         * @param hr Hour in bluetooth definition
-         * @param min Minute in bluetooth definition
-         * @param sec Second in blutooth definition
-         * @param offset the offset
-         * @return the date of the measurement
-         * @see https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.date_time.xml
-         */
-        fun getDate(y:Int?, m:Int?, d:Int?, hr:Int?, min:Int?, sec:Int?, offset:Int?): Date? {
-            if(y==null || m==null || d==null || hr==null || min==null || sec==null)
-                return null
-
-            val calendar = Calendar.getInstance()
-            calendar.set(Calendar.MILLISECOND, 0)
-            //0 means the field is unknown in bluetooth
-            if(y==0 || m==0 || d==0 )
-                return null
-
-            calendar.set(y, m-1, d, hr, min, sec)
-            offset?.let { calendar.add(Calendar.MINUTE, it)}
-            return calendar.time
-        }
 
 }
