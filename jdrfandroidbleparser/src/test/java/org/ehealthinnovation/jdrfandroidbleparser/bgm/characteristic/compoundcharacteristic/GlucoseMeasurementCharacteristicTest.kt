@@ -163,14 +163,6 @@ class GlucoseMeasurementCharacteristicTest : BaseTest() {
         Assert.assertEquals(unit4, glucoseMeasurementCharacteristic4.unit)
     }
 
-    @Test
-    fun testParseDisplayTime() {
-        Assert.assertEquals(expectedDate1, glucoseMeasurementCharacteristic1.userFacingTime)
-        Assert.assertEquals(expectedDate2, glucoseMeasurementCharacteristic2.userFacingTime)
-        Assert.assertEquals(expectedDate3, glucoseMeasurementCharacteristic3.userFacingTime)
-        Assert.assertEquals(expectedDate4, glucoseMeasurementCharacteristic4.userFacingTime)
-    }
-
     //The following test the univer conversion accuracy
     @Test
     fun getConcentration() {

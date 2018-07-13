@@ -29,11 +29,10 @@ class GlucoseMeasurementCharacteristic(characteristic: BluetoothGattCharacterist
      * The year, month, day, hour, minute, second have value according to https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.date_time.xml
      * These are the raw value extracted from the binary packet and not directly usable without proper conversion.
      * [dateTime] is a data wrapper for processing bluetooth these data fields.
-     * The bluetooth time are converted into a [Date] as [userFacingTime].
      * Note that time zone is not available with this date time value.
      */
     var dateTime: BluetoothDateTime? = null
-    var userFacingTime: Date? = null
+
     /**
      * The concentration is the raw value from the binary packet. It has unit stored in [unit].
      * A convenient function [getConcentration] to get the value in desired unit can be used to query this value.
@@ -74,9 +73,6 @@ class GlucoseMeasurementCharacteristic(characteristic: BluetoothGattCharacterist
             if (it.contains(Flags.TIME_OFFSET_PRESENT)) {
                 dateTime?.offset = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
             }
-
-            //format the date, time, offset into java type
-            userFacingTime = dateTime?.convertToDate()
 
             if (it.contains(Flags.GLUCOSE_CONCENTRATION_TYPE_SAMPLE_LOCATION_PRESENT)) {
                 concentration = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)

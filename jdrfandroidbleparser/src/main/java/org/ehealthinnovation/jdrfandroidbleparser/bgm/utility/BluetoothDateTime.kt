@@ -18,22 +18,4 @@ data class BluetoothDateTime(val _year: Int = 0,
     var sec = _sec
     var offset = _offset
 
-    lateinit var date: Date
-
-    /**
-     * Convert a Bluetooth Base offset time format to user facing time.
-     * @return the exact time by combining the base time with the offset. null is return when one of
-     * the base time fields is unknown.
-     */
-    fun convertToDate(): Date?{
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.MILLISECOND, 0)
-        if(year==0 || month==0 || day==0 )
-            return null
-
-        calendar.set(year, month-1, day, hour, min, sec)
-        offset?.let { calendar.add(Calendar.MINUTE, it)}
-        return calendar.time
-    }
-
 }
