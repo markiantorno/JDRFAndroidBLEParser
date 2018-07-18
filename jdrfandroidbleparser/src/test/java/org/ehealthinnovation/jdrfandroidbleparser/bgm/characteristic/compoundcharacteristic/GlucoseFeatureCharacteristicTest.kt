@@ -35,7 +35,7 @@ class GlucoseFeatureCharacteristicTest : BaseTest() {
     @Test
     fun parseSuccess() {
         /**This is a general normal packet*/
-        val testPacket: ByteArray = byteArrayOf(0b00010001, 0b00000001)
+        val testPacket: ByteArray = byteArrayOf(0x11, 0x01) //value representing 0b00010001 0b00000001
         val glucoseFeatureCharacteristic = GlucoseFeatureCharacteristic(mockBTCharacteristic(testPacket))
         Assert.assertEquals(true, glucoseFeatureCharacteristic.successfulParsing)
 
