@@ -14,11 +14,9 @@ import android.bluetooth.BluetoothGattCharacteristic
 interface Composable {
 
     /**
-     * Compose a given characteristic into the resulting [BluetoothGattCharacteristic].
-     *
-     * @param gatt Reference to the associated [BluetoothGatt] to compose the packet for.
+     * Compose a given characteristic into the resulting [ByteArray].
      */
     @Throws(IllegalStateException::class)
-    fun composeCharacteristic(gatt: BluetoothGatt): BluetoothGattCharacteristic
+    fun composeCharacteristic(): ByteArray
 
 }
