@@ -1,8 +1,7 @@
 package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.compoundcharacteristic
 
 import android.bluetooth.BluetoothGattCharacteristic
-import android.util.Log
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.BaseCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.common.BaseCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.GattCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.Units
 import org.ehealthinnovation.jdrfandroidbleparser.encodedvalue.bgm.contextmeasurement.*
@@ -50,18 +49,23 @@ class GlucoseMeasurementContextCharacteristic(characteristic: BluetoothGattChara
     // As percentage. Field exists if the key of bit 6 of the Flags field is set to 1
     var HbA1c: Float? = null
 
+    var c: Calendar? = null
+
     override fun parse(c: BluetoothGattCharacteristic): Boolean {
         var errorFreeParse = false
         // These flags define which data fields are present in the Characteristic value
         Flags.parseFlags(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)).let {
             sequenceNumber = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT16)
-            if (it.contains(Flags.EXTENDED_FLAGS_PRESENT)) extendedFlag = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
-
+            if (it.contains(Flags.EXTENDED_FLAGS_PRESENT)) {
+                extendedFlag = getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8)
+            }
             if (it.contains(Flags.CARBOHYDRATE_ID_AND_CARBOHYDRATE_PRESENT)) {
                 carbohydrateId = CarbohydrateId.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
                 carbohydrate = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
             }
-            if (it.contains(Flags.MEAL_PRESENT)) meal = Meal.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+            if (it.contains(Flags.MEAL_PRESENT)) {
+                meal = Meal.fromKey(getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8))
+            }
             if (it.contains(Flags.TESTER_HEALTH_PRESENT)) getNextIntValue(c, BluetoothGattCharacteristic.FORMAT_UINT8).let {
                 tester = Tester.fromKey(it and 0x0F)
                 health = Health.fromKey((it and 0xF0) shr 4)
@@ -78,7 +82,9 @@ class GlucoseMeasurementContextCharacteristic(characteristic: BluetoothGattChara
                 it.contains(Flags.MEDICATION_VALUE_UNITS) -> Units.LITRE
                 else -> Units.KILOGRAM
             }
-            if (it.contains(Flags.HBA1C_PRESENT)) HbA1c = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
+            if (it.contains(Flags.HBA1C_PRESENT)) {
+                HbA1c = getNextFloatValue(c, BluetoothGattCharacteristic.FORMAT_SFLOAT)
+            }
             errorFreeParse = true
         }
         return errorFreeParse

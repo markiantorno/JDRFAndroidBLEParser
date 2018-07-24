@@ -1,4 +1,4 @@
-package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic
+package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.common
 
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
@@ -11,23 +11,27 @@ import kotlin.jvm.java
  *
  * Created by miantorno on 2018-06-19.
  */
-abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, val uuid: Int) {
-    open val tag = BaseCharacteristic::class.java.canonicalName as String
-    val nullValueException = "Null characteristic interpretation, aborting parsing."
-    val rawData: ByteArray = characteristic?.value ?: ByteArray(0)
-    var successfulParsing: Boolean = false
-    var offset = 0
+abstract class BaseCharacteristic(val uuid: Int) {
 
     /**
      * If the characteristic is null, which is possible, we just return false so the requesting
      * process can handle the failed parse. This is done in the super class, so we don't have to
      * deal with it in every other sub class characteristic.
      */
-    init {
+    constructor(characteristic: BluetoothGattCharacteristic?, uuid: Int): this(uuid) {
+        this.characteristic = characteristic
         characteristic?.let {
+            rawData = it.value ?: ByteArray(0)
             this.successfulParsing = tryParse(it)
         }
     }
+
+    open val tag = BaseCharacteristic::class.java.canonicalName as String
+    val nullValueException = "Null characteristic interpretation, aborting parsing."
+    var rawData: ByteArray = ByteArray(0)
+    var characteristic: BluetoothGattCharacteristic? = null
+    var successfulParsing: Boolean = false
+    var offset = 0
 
     /**
      * Swallowing the exception is one of two viable options, some users might want any error to
@@ -35,7 +39,7 @@ abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, 
      *
      * https://github.com/markiantorno/JDRFAndroidBLEParser/issues/1
      */
-    protected fun tryParse(c: BluetoothGattCharacteristic): Boolean {
+    fun tryParse(c: BluetoothGattCharacteristic): Boolean {
         var errorFreeParse = false
         try {
             errorFreeParse = parse(c)
@@ -50,6 +54,9 @@ abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, 
     /**
      * Each characteristic has it's own set of values which could be of differing types, so we leave
      * implementation of the parsing to the individual characteristic implementation.
+     *
+     * Order matters for parsing as values are stored in the array, and are pulling out using a
+     * store offset variable, see [getNextOffset].
      *
      * @param c The [BluetoothGattCharacteristic] to parse.
      */
@@ -75,8 +82,7 @@ abstract class BaseCharacteristic(characteristic: BluetoothGattCharacteristic?, 
             c.getStringValue(offset)?.let {
                 offset += it.toByteArray().size
                 return it
-            }
-                    ?: throw NullPointerException("Offset \"$offset\" does not relate to valid String value...")
+            } ?: throw NullPointerException("Offset \"$offset\" does not relate to valid String value...")
 
     /**
      * Returns the stored [Int] value of this characteristic.
