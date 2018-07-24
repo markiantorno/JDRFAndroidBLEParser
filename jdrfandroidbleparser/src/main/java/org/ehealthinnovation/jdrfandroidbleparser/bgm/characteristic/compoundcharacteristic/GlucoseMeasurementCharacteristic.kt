@@ -2,7 +2,7 @@ package org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.compoundch
 
 import android.bluetooth.BluetoothGattCharacteristic
 import android.util.Log
-import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.BaseCharacteristic
+import org.ehealthinnovation.jdrfandroidbleparser.bgm.characteristic.common.BaseCharacteristic
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.Flags
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.SampleLocation
 import org.ehealthinnovation.jdrfandroidbleparser.bgm.encodedvalue.bgmmeasurement.SensorStatusAnnunciation
