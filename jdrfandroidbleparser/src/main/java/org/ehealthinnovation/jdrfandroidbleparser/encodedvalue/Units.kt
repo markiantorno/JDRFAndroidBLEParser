@@ -120,5 +120,9 @@ enum class Units constructor(identifier: String, assigned: Int) {
     LUMEN_HOUR("org.bluetooth.unit.luminous_energy.lumen_hour", 0x27BF),
     LUX_HOUR("org.bluetooth.unit.luminous_exposure.lux_hour", 0x27C0),
     GRAM_PER_SECOND("org.bluetooth.unit.mass_flow.gram_per_second", 0x27C1),
-    LITRE_PER_SECOND("org.bluetooth.unit.volume_flow.litre_per_second", 0x27C2)
+    LITRE_PER_SECOND("org.bluetooth.unit.volume_flow.litre_per_second", 0x27C2),
+    //The following two units are not currently present in the unit page of Bluetooth website. Therefore, the followings are added for now.
+    //Bluetooth sig will be looking into it.
+    KILOGRAM_PER_LITRE("org.bluetooth.unit.mass_density.kilogram_per_litre", 0x9821),
+    MOLE_PER_LITRE("org.bluetooth.unit.mass_density.mole_per_litre", 0x9822)
 }
